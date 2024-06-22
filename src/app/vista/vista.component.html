@@ -1,0 +1,104 @@
+<!--Caja principal-->
+<div class="relative flex min-h-screen justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+    <div class="relative bg-white px-8 pt-12 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-full sm:rounded-lg sm:px-12 flex flex-col sm:flex-row w-full lg:w-11/12 xl:w-9/12">
+        <!--Primera caja-->
+        <div class="w-full p-6">
+        <div class="bg-white px-8 pt-12 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-12 h-full flex flex-col justify-center items-center transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
+          <h2 class="text-2xl font-semibold mb-4">Tipo de Problema</h2>
+          
+          <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Hardware</option>
+                <option value="mal_estado">Software</option>
+                <option value="no_aplica">Aplicativos</option>
+                <option value="no_aplica">Habitaciones</option>
+                <option value="no_aplica">Impresoras</option>
+                <option value="no_aplica">Correos</option>
+                <option value="no_aplica">Camaras</option>
+                <option value="no_aplica">Digiturno</option>
+          </select>
+  
+          <div class="w-full">
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2">CPU</label>
+              <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Buen estado</option>
+                <option value="mal_estado">Mal estado</option>
+                <option value="no_aplica">No aplica</option>
+              </select>
+            </div>
+  
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2">Monitor</label>
+              <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Buen estado</option>
+                <option value="mal_estado">Mal estado</option>
+                <option value="no_aplica">No aplica</option>
+              </select>
+            </div>
+  
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2">Cable de Red</label>
+              <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Buen estado</option>
+                <option value="mal_estado">Mal estado</option>
+                <option value="no_aplica">No aplica</option>
+              </select>
+            </div>
+  
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2">Mouse</label>
+              <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Buen estado</option>
+                <option value="mal_estado">Mal estado</option>
+                <option value="no_aplica">No aplica</option>
+              </select>
+            </div>
+  
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2">Teclado</label>
+              <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Buen estado</option>
+                <option value="mal_estado">Mal estado</option>
+                <option value="no_aplica">No aplica</option>
+              </select>
+            </div>
+  
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2">Otros</label>
+              <select class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+                <option value="buen_estado">Buen estado</option>
+                <option value="mal_estado">Mal estado</option>
+                <option value="no_aplica">No aplica</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--Segunda caja-->
+    <div class="w-full lg:w-full xl:w-full p-8">
+        <div class="bg-white px-5 pt-8 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-12 h-full flex flex-col justify-center items-center transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
+          <h2 class="text-2xl font-semibold mb-4">Descripción</h2>
+          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
+            <form>
+                <div class="mb-4">
+                    <label for="textArea" class="block text-gray-700 text-sm font-bold mb-2">Ingrese su texto:</label>
+                    <textarea id="textArea" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Escriba aquí"></textarea>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    
+    <!--Tercera caja-->
+    <div class="w-full p-6">
+        <div class="bg-white px-8 pt-12 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-12 h-full flex flex-col justify-center items-center transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl w-full max-w-7xl mx-auto">
+            <h2 class="text-2xl font-semibold mb-4">Evidencia fotográfica</h2>
+        <form class="w-full" enctype="multipart/form-data">
+            <div class="mb-4">
+                <input type="file" id="fileUpload" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="mb-4 w-full">
+                <label for="textArea" class="block text-gray-700 text-sm font-bold mb-2">Ingrese su texto:</label>
+                <textarea id="textArea" rows="10" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Escriba aquí"></textarea>
+            </div>    
