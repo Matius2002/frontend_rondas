@@ -1,0 +1,4 @@
+/* app.component.css */
+.no-resize {
+    resize: none;
+}
