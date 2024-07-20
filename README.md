@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FrontendRondas
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.4.
@@ -25,3 +26,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# frontend_rondas
+Este es el proyecto del frontend para el sistemas de rondas de tecnología para la Clinica Junical Medical S.A.S como proyecto de practicas. El cual consta de Angular para el frontend.
+>>>>>>> f10994de062184d1b8da4e620db1985898cb0db7
