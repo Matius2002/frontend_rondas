@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-vista',
+  selector: 'app-contenedor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './vista.component.html',
-  styleUrls: ['./vista.component.css']
+  imports: [CommonModule, FormsModule, HttpClientModule],
+  templateUrl: './contenedor.component.html',
+  styleUrls: ['./contenedor.component.css']
 })
-export class VistaComponent {
+export class ContenedorComponent {
   files: File[] = [];
   imageUrls: string[] = [];
   readonly maxFiles: number = 5;
@@ -25,6 +25,8 @@ export class VistaComponent {
   novedad = {
     descripcion: ''
   };
+
+  constructor(private http: HttpClient) {}
 
   updateFileCount(event: Event): void {
     const element = event.target as HTMLInputElement;
@@ -86,27 +88,42 @@ export class VistaComponent {
   getSubCategories(): string[] {
     switch (this.selectedCategory) {
       case 'hardware':
-        return ['cpu', 'monitor', 'teclado', 'mouse', 'cable_red', 'otro'];
+        return ['cpu', 'Monitor', 'Teclado', 'Mouse', 'Cable de red', 'Timbre de enfermeria', 'Consola de enfermeria','Televisor','Otro'];
       case 'software':
-        return ['archivos_temporales', 'antivirus', 'office', 'windows', 'navegador', 'carpetas_compartidas', 'otro'];
+        return ['Antivirus','Office','Windows','Carpetas Compartidas', 'Navegador', 'Otro'];
       case 'aplicativos':
-        return ['hosvital_financiero', 'hosvital_asistencial', 'resultados_radiologia', 'salomon', 'atrys', 'aula_virtual', 'otro'];
-      case 'habitaciones':
-        return ['televisor', 'llamados_enfermeria', 'otro'];
+        return ['Hosvital Financiero', 'Hosvital Asistencial', 'Salomon', 'Atrys', 'Aula Virtual', 'Resultados Radiologia', 'Zimbra','Outlook','Otro'];
       case 'impresoras':
-        return ['stickers', 'scanner', 'vinculacion_equipo', 'conf_impresora', 'atasco', 'otro'];
-      case 'correos':
-        return ['zmbra', 'gmail', 'outlook', 'otro'];
+        return ['Adf', 'Atasco', 'Bandeja', 'Toner', 'Error', 'Cristal','Otro'];
       case 'camaras':
-        return ['fecha_hora', 'pantalla', 'camara', 'otro'];
+        return ['Fecha', 'Imagen', 'Camaras', 'Rack','Otro'];
       case 'infoturno':
-        return ['red', 'papel', 'atasco', 'otro'];
+        return ['Red', 'Papel', 'Atasco', 'Registro','Software','Servidor','Otro'];
       case 'biometrico':
-        return ['sin_sincronizacion', 'usuario_registrado', 'otro'];
+        return ['Red','Desincronizacion','Registro','Almacenamiento','Otro'];
       case 'redes':
-        return ['rack', 'switch', 'cuarto_de_datos', 'servidor', 'ups', 'otro'];
+        return ['Rack', 'Switch', 'Energia', 'Servidor', 'Fibra Optica', 'Otro'];
       default:
         return [];
     }
+  }
+
+  onSubmit(): void {
+    const formData = {
+      category: this.selectedCategory,
+      subCategories: this.selectedSubCategoriesList,
+      subCategoryStatus: this.subCategoryStatus,
+      priority: this.priority,
+      description: this.novedad.descripcion
+    };
+
+    this.http.post('http://localhost:8080/api/novedades', formData).subscribe(
+      response => {
+        console.log('Registro exitoso', response);
+      },
+      error => {
+        console.error('Error en el registro', error);
+      }
+    );
   }
 }

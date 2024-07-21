@@ -1,14 +1,14 @@
+<!--Contenedor principal-->
 <div class="relative flex min-h-screen h-screen justify-center bg-gray-50 py-2 sm:py-4 overflow-hidden">
-  <!--configura un contenedor que ocupa toda la altura de la pantalla, con un fondo gris claro y un padding vertical adaptable a diferentes tamaños de pantalla, centrando horizontalmente su contenido y ocultando cualquier desbordamiento.-->
+  
   <div class="relative bg-white px-8 pt-12 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-full sm:rounded-lg sm:px-12 flex flex-col sm:flex-row w-full lg:w-11/12 xl:w-9/12">
-    <!--Define un contenedor estilizado con fondo blanco, sombras, bordes redondeados, y un padding considerable. Utiliza flexbox para la disposición del contenido, ajustando el diseño de columna a fila según el tamaño de la pantalla, y tiene un ancho adaptable para diferentes tamaños de pantalla, centrándose en pantallas medianas y superiores.-->
+    
     <div class="w-full p-1 overflow-y-auto">
-      <!--<div class="bg-white px-3 pt-4 pb-4 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-8 h-full w-full flex flex-col justify-start items-start transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">-->
-      <!--Select de categoria novedad-->
       <h2 class="text-2xl font-semibold mb-2 text-center w-full">Tipo de novedad</h2>
       <div class="flex items-center justify-center">
         <select [(ngModel)]="selectedCategory" (change)="onCategoryChange($event)"
-          class="w-3/4 border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
+          class="w-3/4 border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+          name="selectedCategory">
           <option value="" disabled selected>Seleccione una opción</option>
           <option value="hardware">Hardware</option>
           <option value="software">Software</option>
@@ -24,49 +24,59 @@
         </select>
       </div>
 
-      <!-- Subcategorías -->
-      <div *ngIf="selectedCategory" class="mt-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2">{{ selectedCategory }}</label>
-        <div class="flex items-center justify-center">
-        <select multiple [(ngModel)]="selectedSubCategories" class="w-3/4 border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
-          <option *ngFor="let subCategoria of getSubCategories()" [value]="subCategoria">{{ subCategoria }}</option>
+      
+<div *ngIf="selectedCategory && selectedCategory !== 'otros'" class="mt-4">
+  <label class="block text-gray-700 text-sm font-bold mb-2">{{ selectedCategory }}</label>
+  <div class="flex items-center justify-center">
+    <select multiple [(ngModel)]="selectedSubCategories" class="w-3/4 border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500" name="selectedSubCategories">
+      <option *ngFor="let subCategoria of getSubCategories()" [value]="subCategoria">{{ subCategoria }}</option>
+    </select>
+    <button (click)="addSelectedSubCategories()" class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      ✔
+    </button>
+  </div>
+  <div *ngIf="selectedSubCategories.includes('otro')" class="mt-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Especifique la subcategoría</label>
+    <input type="text" [(ngModel)]="otherSubCategory" class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500" placeholder="Especifique la subcategoría">
+  </div>
+</div>
+
+   
+<div class="mt-4" *ngIf="!selectedSubCategories.includes('otro')">
+  <div class="grid grid-cols-1 gap-4">
+    <div *ngFor="let subCategory of selectedSubCategoriesList" class="flex items-center justify-center space-x-4">
+      <ng-container *ngIf="subCategory !== 'otro'">
+        <span class="bg-gray-200 py-1 px-3 rounded text-center">{{ subCategory }}</span>
+        <select [(ngModel)]="subCategoryStatus[subCategory]" class="w-1/2 border border-gray-300 rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500" name="subCategoryStatus">
+          <option value="buen_estado">Buen estado</option>
+          <option value="mal_estado">Mal estado</option>
         </select>
-        <button (click)="addSelectedSubCategories()"
-          class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          ✔
-        </button>
-      </div>
+      </ng-container>
     </div>
+  </div>
+</div>
 
-      <!-- Opciones seleccionadas -->
-      <div class="mt-4">
-        <div *ngFor="let subCategory of selectedSubCategoriesList" class="flex items-center space-x-4 mt-2">
-          <span class="bg-gray-200 py-1 px-3 rounded">{{ subCategory }}</span>
-          <select [(ngModel)]="subCategoryStatus[subCategory]"
-            class="w-1/3 border border-gray-300 rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500">
-            <option value="buen_estado">Buen estado</option>
-            <option value="mal_estado">Mal estado</option>
-          </select>
-        </div>
-      </div>
 
-      <!-- Input adicional para la opción "Otro" -->
-      <div class="mt-4" *ngIf="selectedSubCategories.includes('otro')">
-        <label class="block text-gray-700 text-sm font-bold mb-2">Por favor, especifique</label>
-        <input type="text" [(ngModel)]="otherSubCategory"
+
+      
+      <div *ngIf="selectedCategory === 'otros'" class="mt-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">Por favor, especifique el tipo de novedad</label>
+        <input type="text" [(ngModel)]="otherCategory"
           class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-          placeholder="Especifique la subcategoría">
+          placeholder="Especifique el tipo de novedad" name="otherCategory">
       </div>
+
     </div>
   </div>
 
+  
   <div class="w-full lg:w-full xl:w-full p-1 flex flex-col justify-start items-center overflow-y-auto">
     <div
       class="bg-white px-3 pt-4 pb-4 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-8 h-full w-full flex flex-col justify-start items-start transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
       <h2 class="text-2xl font-semibold mb-4 text-center w-full">Prioridad de la novedad</h2>
       <select
         class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-        placeholder="Seleccione la prioridad" [(ngModel)]="priority">
+        placeholder="Seleccione la prioridad" [(ngModel)]="priority" name="priority">
         <option value="" disabled selected>Seleccione la prioridad</option>
         <option value="critico">Crítico</option>
         <option value="alto">Alto</option>
@@ -78,12 +88,13 @@
         <div class="mb-2 w-full">
           <textarea id="textArea" rows="10"
             class="w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 no-resize"
-            placeholder="Descripción de la novedad" [(ngModel)]="novedad.descripcion"></textarea>
+            placeholder="Descripción de la novedad" [(ngModel)]="novedad.descripcion" name="descripcion"></textarea>
         </div>
       </form>
     </div>
   </div>
 
+  
   <div class="w-full lg:w-full xl:w-full p-1 flex flex-col justify-start items-center overflow-y-auto">
     <div
       class="bg-white px-8 pt-6 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-12 h-full w-full max-w-7xl mx-auto flex flex-col justify-start items-center transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
