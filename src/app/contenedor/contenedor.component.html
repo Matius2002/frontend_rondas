@@ -45,36 +45,17 @@
           <!-- Contenedor del selector de tipo de novedad -->
           <div _ngcontent-ng-c2317718536=""
             class="flex w-full h-full items-center justify-center align-middle gap-2 ng-tns-c2317718536-2">
-            <select [(ngModel)]="selectedCategory" (change)="onCategoryChange($event)" name="tipoNovedad"
-              id="tipoNovedad"
-              class="flex w-full p-0 px-4 py-4 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0 ng-tns-c2317718536-2 ng-untouched ng-pristine ng-valid"
-              placeholder="Seleccione la prioridad">
-              <option value="" disabled selected>Seleccione tipo de novedad</option>
-              <option value="Hardware">Hardware</option>
-              <option value="Software">Software</option>
-              <option value="Aplicativos">Aplicativos</option>
-              <option value="Impresoras">Impresoras</option>
-              <option value="Camaras">Camaras</option>
-              <option value="Infoturno">Infoturno</option>
-              <option value="Biometrico">Biometrico</option>
-              <option value="Redes">Redes</option>
-              <option value="otros">Otro</option>
+            <!-- Selector de tipo de novedad con dos opciones -->
+            <select _ngcontent-ng-c2317718536="" name="tipoNovedad" ngDefaultControl="" id="tipoNovedad"
+              class="flex w-full p-0 px-4 py-4 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0 ng-tns-c2317718536-2 ng-untouched ng-pristine ng-valid">
+              <option _ngcontent-ng-c2317718536="" class="ng-tns-c2317718536-2 ng-star-inserted" value="0: 1">Novedad
+                General</option>
+              <option _ngcontent-ng-c2317718536="" class="ng-tns-c2317718536-2 ng-star-inserted" value="0: 1">Novedad
+                Tecnología</option>
+              <option _ngcontent-ng-c2317718536="" class="ng-tns-c2317718536-2 ng-star-inserted" value="1: 2">
+                Próximamente</option>
             </select>
           </div>
-
-          <!--Contenedor de agreagar la prioridad de la novedad-->
-          <div class="flex w-full h-full items-center justify-center align-middle gap-2">
-            <select
-              class="flex w-full max-w-lg p-0 px-4 py-4 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0"
-              placeholder="Seleccione la prioridad" [(ngModel)]="priority" name="priority">
-              <option value="" disabled selected>Seleccione la prioridad</option>
-              <option value="critico">Crítico</option>
-              <option value="alto">Alto</option>
-              <option value="medio">Medio</option>
-              <option value="bajo">Bajo</option>
-            </select>
-          </div>
-          <!--fin del contenedor-->
 
           <!-- Contenedor del botón de agregar novedad -->
           <div _ngcontent-ng-c2317718536=""
@@ -89,101 +70,125 @@
           class="flex w-full h-[80%] px-2 pt-2 pb-0 bg-white shadow-md shadow-gray-300 border border-gray-300 rounded-b-2xl ng-tns-c2317718536-2">
           <!--INICIO DE CONTENIDO INTERNO-->
 
-          <!--Contenedor principal-->
+          <!--SEPARA LOS 3 CONTENEDORES-->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-0 w-full h-full">
 
-            <!-- Columna 1: Tipo de novedad -->
+            <!-- CONTENEDOR PRINCIPAL -->
             <div class="w-full p-1 flex flex-col justify-start items-center h-full overflow-y-auto">
               <div
-                class="bg-white px-6 py-8 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-10 h-full w-full flex flex-col justify-start items-start transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
-                <!-- Subcategorías -->
-                <div *ngIf="selectedCategory && selectedCategory !== 'otros'" class="mt-0">
-                  <label class="block text-gray-700 text-sm font-bold mb-0">{{ selectedCategory }}</label>
-                  <div class="flex items-center justify-center w-full mb-2">
-                    <div class="relative w-48">
-                      <select multiple [(ngModel)]="selectedSubCategories"
-                        class="block appearance-none w-full h-24 border border-gray-300 rounded-lg shadow-md py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        name="selectedSubCategories">
-                        <option *ngFor="let subCategoria of getSubCategories()" [value]="subCategoria">{{subCategoria}}
-                        </option>
-                      </select>
+                class="bg-white p-1 sm:p-2 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg w-full flex flex-col justify-start items-start transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex-grow">
+                <h2 class="text-base font-medium mb-1 text-gray-600 text-center w-full">Tipo de novedad tecnológica</h2>
+
+                <!-- SELECT PRINCIPAL -->
+                <select [(ngModel)]="selectedCategory" (change)="onCategoryChange($event)" name="tipoNovedadTecnologica"
+                  id="tipoNovedadTecnologica"
+                  class="flex w-full p-0 px-2 py-2 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0"
+                  placeholder="Seleccione la prioridad">
+                  <option value="" disabled selected>Seleccione una opción</option>
+                  <option value="Hardware">Hardware</option>
+                  <option value="Software">Software</option>
+                  <option value="Aplicativos">Aplicativos</option>
+                  <option value="Impresoras">Impresoras</option>
+                  <option value="Camaras">Camaras</option>
+                  <option value="Infoturno">Infoturno</option>
+                  <option value="Biometrico">Biometrico</option>
+                  <option value="Redes">Redes</option>
+                  <option value="otros">Otro</option>
+                </select>
+                <!--FIN DEL SELECT PRINCIPAL-->
+
+                <!-- INPUT PARA OTRA CATEGORÍA PRINCIPAL -->
+                <div class="w-full mt-4" *ngIf="selectedCategory === 'otros'">
+                  <input type="text" [(ngModel)]="otherCategory" placeholder="Ingrese la novedad"
+                    class="w-full p-2 border border-gray-300 rounded-lg">
+                </div>
+
+                <!-- CHIPS DE SELECCIÓN MULTIPLE -->
+                <div class="w-full mt-4" *ngIf="selectedCategory && selectedCategory !== 'otros'">
+                  <div class="flex">
+                    <div class="border border-gray-300 p-2 rounded-lg h-32 overflow-y-auto flex-1">
+                      <div *ngFor="let subCategoria of getSubCategories()" class="flex items-center mb-1">
+                        <input type="checkbox" [value]="subCategoria" (change)="onCheckboxChange($event)" class="mr-2">
+                        <label class="text-gray-700">{{subCategoria}}</label>
+                      </div>
                     </div>
-                    <button (click)="addSelectedSubCategories()"
-                      class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-full flex items-center justify-center min-w-[35px] h-[35px] shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
-                      aria-label="Add selected subcategories">✔</button>
-                  </div>
-                  <div *ngIf="selectedSubCategories.includes('Otro')" class="mt-2">
-                    <label class="block text-gray-700 text-sm font-bold mb-1">Especifique</label>
-                    <input type="text" [(ngModel)]="otherSubCategory"
-                      class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                      placeholder="Especifique la subcategoría">
+                    <div class="flex items-center ml-2">
+                      <button (click)="generateSelectedSubCategories()"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                        aria-label="Generate selected subcategories">✔</button>
+                    </div>
                   </div>
                 </div>
 
-                <div class="p-2 bg-white rounded-lg shadow-md w-full max-w-md mx-auto space-y-2 fixed-container">
-                  <div *ngFor="let subCategory of selectedSubCategoriesList"
-                    class="p-2 bg-gray-100 rounded-lg flex items-center justify-between space-x-2 fixed-element">
-                    <ng-container>
-                      <span
-                        class="bg-gray-200 py-1 px-2 rounded text-center w-1/3 flex-shrink-0 fixed-span">{{subCategory
-                        }}</span>
-                      <select [(ngModel)]="subCategoryStatus[subCategory]"
-                        class="border border-gray-300 rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 w-1/3 fixed-select"
-                        name="subCategoryStatus">
-                        <option value="" disabled>Seleccione</option>
-                        <option value="buen_estado">Buen estado</option>
-                        <option value="mal_estado">Mal estado</option>
-                      </select>
-                      <button (click)="removeSubCategory(subCategory)"
-                        class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 w-10 h-10 flex-shrink-0 fixed-button"
+                <!-- INPUT PARA OTRA SUBCATEGORÍA -->
+                <div class="w-full mt-4" *ngIf="showOtherInput">
+                  <input type="text" [(ngModel)]="otherSubCategory" placeholder="Ingrese la novedad"
+                    class="w-full p-2 border border-gray-300 rounded-lg">
+                </div>
+
+                <!-- CONTENEDOR PARA MOSTRAR LAS SUBCATEGORÍAS GENERADAS -->
+                <div class="w-full mt-4 flex-grow overflow-y-auto" *ngIf="generatedSubCategoriesList.length > 0">
+                  <div class="border border-gray-300 p-2 rounded-lg w-full">
+                    <div *ngFor="let subCategory of generatedSubCategoriesList"
+                      class="flex items-center justify-between mb-2 w-full">
+                      <div class="flex items-center flex-1 mr-2">
+                        <span class="mr-2">{{ subCategory }}</span>
+                        <select [(ngModel)]="subCategoryStatus[subCategory]"
+                          class="mr-2 border border-gray-300 p-1 rounded-lg flex-1">
+                          <option value="buen_estado">Buen estado</option>
+                          <option value="mal_estado">Mal estado</option>
+                        </select>
+                      </div>
+                      <button (click)="removeGeneratedSubCategory(subCategory)"
+                        class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-2 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
                         aria-label="Remove subcategory">✖</button>
-                    </ng-container>
+                    </div>
                   </div>
-                </div>
-
-                <!--Apartado del tipo de novedad-->
-                <div *ngIf="selectedCategory === 'otros'" class="mt-4">
-                  <label class="text-base font-medium mb-2 text-gray-600 text-center w-full">¿Cual es su tipo de
-                    novedad?</label>
-                  <input type="text" [(ngModel)]="otherCategory"
-                    class="w-full border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                    placeholder="Especifique el tipo de novedad" name="otherCategory">
                 </div>
               </div>
             </div>
 
-            <!-- Columna 2: Prioridad de la novedad -->
-            <div class="w-full p-1 flex flex-col justify-start items-center h-full overflow-y-auto">
-              <div class="bg-white p-1 sm:p-2 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg h-full w-full flex flex-col justify-start items-start transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl"><!--p-1 sm:p-2 Permite acercar los elementos internos-->
-                <!-- Apartado descripción -->
-                <h2 class="text-base font-medium mt-0 mb-1 text-gray-600 text-center w-full">Descripción</h2>
+            <!--CONTENEDOR 2-->
+            <div class="w-full p-1 flex flex-col justify-start items-center h-full overflow-hidden">
+              <div
+                class="bg-white p-1 sm:p-2 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg h-full w-full flex flex-col justify-start items-start overflow-y-auto transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
+                <h2 class="text-base font-medium mb-1 text-gray-600 text-center w-full">Prioridad</h2>
+                <select [(ngModel)]="selectedCategory" (change)="onCategoryChange($event)" name="tipoNovedadTecnologica"
+                  id="tipoNovedadTecnologica"
+                  class="flex w-full p-0 px-2 py-2 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0"
+                  placeholder="Seleccione la prioridad">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option value="critico">Crítico</option>
+                  <option value="alto">Alto</option>
+                  <option value="medio">Medio</option>
+                  <option value="bajo">Bajo</option>
+                </select>
+
+                <!--DESCRIPCIÓN-->
+                <h2 class="text-base font-medium mt-4 mb-4 text-gray-600 text-center w-full">Descripción</h2>
                 <form class="w-full">
-                  <div class="mb-1 w-full">
+                  <div class="mb-4 w-full">
                     <textarea id="textArea" rows="6"
-                      class="w-full border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 resize-none p-1"
-                      placeholder="Describa la novedad" [(ngModel)]="novedad.descripcion"
-                      name="descripcion"></textarea>
+                      class="w-full border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 resize-none p-2"
+                      placeholder="Describa la novedad" [(ngModel)]="novedad.descripcion" name="descripcion"></textarea>
                   </div>
                 </form>
-            
-                <!-- Apartado sí o no -->
-                <h2 class="text-base font-medium mb-2 text-gray-600 text-center w-full">¿Quedó resuelta la novedad?</h2>
-                <div class="w-full flex justify-center mt-2">
-                  <button (click)="setOption('yes')" 
-                          [ngClass]="{'bg-gradient-to-r from-blue-400 to-blue-600 text-white': selectedOption === 'yes', 'bg-gray-200 text-gray-600': selectedOption !== 'yes'}" 
-                          class="w-12 px-2 py-1 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm">
-                    Sí
-                  </button>
-                  <button (click)="setOption('no')" 
-                          [ngClass]="{'bg-gradient-to-r from-red-400 to-red-600 text-white': selectedOption === 'no', 'bg-gray-200 text-gray-600': selectedOption !== 'no'}" 
-                          class="w-12 px-2 py-1 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm ml-8">
-                    No
-                  </button>
-                </div>                                                                                                
+
+                <!--¿QUEDO RESUELTO LA NOVEDAD?-->
+                <h2 class="text-base font-medium mb-4 text-gray-600 text-center w-full">¿Quedó resuelta la novedad?
+                </h2>
+                <div class="w-full flex justify-center">
+                  <button (click)="setOption('yes')"
+                    [ngClass]="{'bg-gradient-to-r from-blue-400 to-blue-600 text-white': selectedOption === 'yes', 'bg-gray-200 text-gray-600': selectedOption !== 'yes'}"
+                    class="w-12 px-2 py-1 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm">Sí</button>
+                  <button (click)="setOption('no')"
+                    [ngClass]="{'bg-gradient-to-r from-red-400 to-red-600 text-white': selectedOption === 'no', 'bg-gray-200 text-gray-600': selectedOption !== 'no'}"
+                    class="w-12 px-2 py-1 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm ml-12">No</button>
+                </div>
               </div>
-            </div>                           
-          
-            <!-- Columna 3: Evidencia fotográfica -->
+            </div><!--FIN DEL CONTENEDOR 2-->
+
+            <!--CONTENEDOR 3-->
             <div class="w-full p-1 flex flex-col justify-start items-center h-full overflow-y-auto">
               <div
                 class="bg-white px-8 pt-6 pb-10 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-12 h-full w-full max-w-7xl mx-auto flex flex-col justify-start items-center transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
@@ -191,7 +196,7 @@
               </div>
             </div>
           </div>
-          <!-- FIN DEL CONTENIDO INTERNO -->
+          <!--FIN DEL CONTENIDO INTERNO-->
         </div>
       </div>
     </div>

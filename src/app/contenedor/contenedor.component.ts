@@ -1,10 +1,8 @@
-// Importaciones
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-// Decorador @Component
 @Component({
   selector: 'app-contenedor',
   standalone: true,
@@ -12,8 +10,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   templateUrl: './contenedor.component.html',
   styleUrls: ['./contenedor.component.css']
 })
-
-// Clase ContenedorComponent
 export class ContenedorComponent {
   files: File[] = [];
   imageUrls: string[] = [];
@@ -21,7 +17,8 @@ export class ContenedorComponent {
   selectedCategory: string = '';
   selectedSubCategories: string[] = [];
   selectedSubCategoriesList: string[] = [];
-  otherCategory: string = '';
+  generatedSubCategoriesList: string[] = []; // Nueva propiedad para almacenar las subcategorías generadas
+  otherCategory: string = ''; // Nueva propiedad para almacenar la novedad de "otros"
   otherSubCategory: string = ''; 
   subCategoryStatus: { [key: string]: string } = {};
   priority: string = '';
@@ -29,16 +26,14 @@ export class ContenedorComponent {
     descripcion: ''
   };
   selectedOption: string | null = null; // Estado para la opción seleccionada
+  showOtherInput: boolean = false; // Propiedad para controlar la visibilidad del input "Otro"
 
   constructor(private http: HttpClient) {}
-
-  // Métodos del Componente
 
   setOption(option: string): void {
     this.selectedOption = option;
   }
 
-  // Maneja la selección de archivos, limitando el número de archivos seleccionados
   updateFileCount(event: Event): void {
     const element = event.target as HTMLInputElement;
     const files = Array.from(element.files ?? []);
@@ -53,38 +48,50 @@ export class ContenedorComponent {
     }
   }
 
-  // Genera URLs para vistas previas de los archivos seleccionados
   updateImagePreviews(): void {
     this.imageUrls = this.files.map(file => URL.createObjectURL(file));
   }
 
-  // Calcula el progreso de la carga de archivos como un porcentaje
   calculateProgress(): string {
     return `${(this.files.length / this.maxFiles) * 100}%`;
   }
 
-  // Maneja el cambio de categoría, restableciendo las subcategorías y los estados cuando cambia la categoría seleccionada
   onCategoryChange(event: any): void {
     this.selectedCategory = event.target.value;
     this.selectedSubCategories = [];
     this.selectedSubCategoriesList = [];
+    this.generatedSubCategoriesList = []; // Limpiar la lista generada al cambiar la categoría
     this.subCategoryStatus = {};
+    this.showOtherInput = false; // Resetear la visibilidad del input "Otro"
     if (this.selectedCategory !== 'otros') {
-      this.otherCategory = '';
+      this.otherCategory = ''; // Limpiar el valor de la novedad "otros"
     }
   }
 
-  // Añade las subcategorías seleccionadas a la lista de subcategorías seleccionadas y establece su estado por defecto a "buen estado"
+  // Nuevo método para manejar el cambio de los checkboxes
+  onCheckboxChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.value === 'Otro') {
+      this.showOtherInput = checkbox.checked;
+    }
+    if (checkbox.checked) {
+      this.selectedSubCategories.push(checkbox.value);
+    } else {
+      this.selectedSubCategories = this.selectedSubCategories.filter(subCategory => subCategory !== checkbox.value);
+      if (checkbox.value === 'Otro') {
+        this.otherSubCategory = '';
+      }
+    }
+  }
+
   addSelectedSubCategories(): void {
     this.selectedSubCategories.forEach(subCategory => {
-      if (subCategory === 'otro') {
-        if (this.otherSubCategory.trim() !== '') {
-          if (!this.selectedSubCategoriesList.includes(this.otherSubCategory)) {
-            this.selectedSubCategoriesList.push(this.otherSubCategory);
-            this.subCategoryStatus[this.otherSubCategory] = 'buen_estado'; 
-          }
+      if (subCategory === 'Otro' && this.otherSubCategory.trim() !== '') {
+        if (!this.selectedSubCategoriesList.includes(this.otherSubCategory)) {
+          this.selectedSubCategoriesList.push(this.otherSubCategory);
+          this.subCategoryStatus[this.otherSubCategory] = 'buen_estado'; 
         }
-      } else {
+      } else if (subCategory !== 'Otro') {
         if (!this.selectedSubCategoriesList.includes(subCategory)) {
           this.selectedSubCategoriesList.push(subCategory);
           this.subCategoryStatus[subCategory] = 'buen_estado'; 
@@ -93,21 +100,53 @@ export class ContenedorComponent {
     });
     this.selectedSubCategories = []; 
     this.otherSubCategory = ''; 
+    this.showOtherInput = false; // Ocultar el input "Otro" después de añadir la subcategoría
   }
-  
-  // Elimina una subcategoría de la lista de subcategorías seleccionadas y borra su estado
+
+  // Nuevo método para generar la lista de subcategorías seleccionadas
+  generateSelectedSubCategories(): void {
+    this.generatedSubCategoriesList = this.selectedSubCategories.filter(subCategory => subCategory !== 'Otro');
+    if (this.otherSubCategory.trim() !== '') {
+      this.generatedSubCategoriesList.push(this.otherSubCategory);
+    }
+  }
+
+  // Método para eliminar una subcategoría de la lista generada y desmarcar el checkbox correspondiente
+  removeGeneratedSubCategory(subCategory: string): void {
+    this.generatedSubCategoriesList = this.generatedSubCategoriesList.filter(sc => sc !== subCategory);
+    this.selectedSubCategories = this.selectedSubCategories.filter(sc => sc !== subCategory);
+    delete this.subCategoryStatus[subCategory];
+
+    // Desmarcar el checkbox correspondiente
+    const checkbox = document.querySelector(`input[type="checkbox"][value="${subCategory}"]`) as HTMLInputElement;
+    if (checkbox) {
+      checkbox.checked = false;
+    }
+  }
+
+  // Método para manejar la eliminación de una subcategoría de la lista generada
   removeSubCategory(subCategory: string): void {
     this.selectedSubCategoriesList = this.selectedSubCategoriesList.filter(sc => sc !== subCategory);
     delete this.subCategoryStatus[subCategory];
   }
 
-  // Devuelve una lista de subcategorías basada en la categoría seleccionada
+  // Lista de opciones para el select
+  getOptions(): string[] {
+    return ['Opción 1', 'Opción 2', 'Opción 3'];
+  }
+
+  // Método para manejar la eliminación de la novedad
+  removeNovedad(): void {
+    // Implementa la lógica para eliminar la novedad
+    console.log('Novedad eliminada');
+  }
+
   getSubCategories(): string[] {
     switch (this.selectedCategory) {
       case 'Hardware':
         return ['cpu', 'Monitor', 'Teclado', 'Mouse', 'Cable de red', 'Timbre de enfermeria', 'Consola de enfermeria','Televisor','Otro'];
       case 'Software':
-        return ['Antivirus','Office','Windows','Carpetas Compartidas', 'Navegador', 'Otro'];
+        return ['Antivirus','Office','Windows','Carpetas Compartidas', 'Navegador','Otro'];
       case 'Aplicativos':
         return ['Hosvital Financiero', 'Hosvital Asistencial', 'Salomon', 'Atrys', 'Aula Virtual', 'Resultados Radiologia', 'Zimbra','Outlook','Otro'];
       case 'Impresoras':
@@ -119,13 +158,12 @@ export class ContenedorComponent {
       case 'Biometrico':
         return ['Red','Desincronizacion','Registro','Almacenamiento','Otro'];
       case 'Redes':
-        return ['Rack', 'Switch', 'Energia', 'Servidor', 'Fibra Optica', 'Otro'];
+        return ['Rack', 'Switch', 'Energia', 'Servidor', 'Fibra Optica','Otro'];
       default:
         return [];
     }
   }
 
-  // Envía los datos del formulario al servidor a través de una solicitud HTTP POST. Maneja la respuesta y los errores de la solicitud
   onSubmit(): void {
     const formData = {
       category: this.selectedCategory,
