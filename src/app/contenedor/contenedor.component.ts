@@ -1,19 +1,19 @@
-//Importaciones
+// Importaciones
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-//Decorador @Component
-@Component({ 
+// Decorador @Component
+@Component({
   selector: 'app-contenedor',
-  standalone: true, 
-  imports: [CommonModule, FormsModule, HttpClientModule], 
+  standalone: true,
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './contenedor.component.html',
   styleUrls: ['./contenedor.component.css']
 })
 
-//Clase ContenedorComponent
+// Clase ContenedorComponent
 export class ContenedorComponent {
   files: File[] = [];
   imageUrls: string[] = [];
@@ -28,12 +28,17 @@ export class ContenedorComponent {
   novedad = {
     descripcion: ''
   };
+  selectedOption: string | null = null; // Estado para la opción seleccionada
 
   constructor(private http: HttpClient) {}
 
-  //Métodos del Componente
+  // Métodos del Componente
 
-  //Maneja la selección de archivos, limitando el número de archivos seleccionados
+  setOption(option: string): void {
+    this.selectedOption = option;
+  }
+
+  // Maneja la selección de archivos, limitando el número de archivos seleccionados
   updateFileCount(event: Event): void {
     const element = event.target as HTMLInputElement;
     const files = Array.from(element.files ?? []);
@@ -48,17 +53,17 @@ export class ContenedorComponent {
     }
   }
 
-  //Genera URLs para vistas previas de los archivos seleccionados
+  // Genera URLs para vistas previas de los archivos seleccionados
   updateImagePreviews(): void {
     this.imageUrls = this.files.map(file => URL.createObjectURL(file));
   }
 
-  //Calcula el progreso de la carga de archivos como un porcentaje
+  // Calcula el progreso de la carga de archivos como un porcentaje
   calculateProgress(): string {
     return `${(this.files.length / this.maxFiles) * 100}%`;
   }
 
-  //Maneja el cambio de categoría, restableciendo las subcategorías y los estados cuando cambia la categoría seleccionada
+  // Maneja el cambio de categoría, restableciendo las subcategorías y los estados cuando cambia la categoría seleccionada
   onCategoryChange(event: any): void {
     this.selectedCategory = event.target.value;
     this.selectedSubCategories = [];
@@ -69,7 +74,7 @@ export class ContenedorComponent {
     }
   }
 
-  //Añade las subcategorías seleccionadas a la lista de subcategorías seleccionadas y establece su estado por defecto a "buen estado"
+  // Añade las subcategorías seleccionadas a la lista de subcategorías seleccionadas y establece su estado por defecto a "buen estado"
   addSelectedSubCategories(): void {
     this.selectedSubCategories.forEach(subCategory => {
       if (subCategory === 'otro') {
@@ -90,13 +95,13 @@ export class ContenedorComponent {
     this.otherSubCategory = ''; 
   }
   
-  //Elimina una subcategoría de la lista de subcategorías seleccionadas y borra su estado
+  // Elimina una subcategoría de la lista de subcategorías seleccionadas y borra su estado
   removeSubCategory(subCategory: string): void {
     this.selectedSubCategoriesList = this.selectedSubCategoriesList.filter(sc => sc !== subCategory);
     delete this.subCategoryStatus[subCategory];
   }
 
-  //Devuelve una lista de subcategorías basada en la categoría seleccionada
+  // Devuelve una lista de subcategorías basada en la categoría seleccionada
   getSubCategories(): string[] {
     switch (this.selectedCategory) {
       case 'Hardware':
@@ -120,7 +125,7 @@ export class ContenedorComponent {
     }
   }
 
-  //Envía los datos del formulario al servidor a través de una solicitud HTTP POST. Maneja la respuesta y los errores de la solicitud
+  // Envía los datos del formulario al servidor a través de una solicitud HTTP POST. Maneja la respuesta y los errores de la solicitud
   onSubmit(): void {
     const formData = {
       category: this.selectedCategory,
