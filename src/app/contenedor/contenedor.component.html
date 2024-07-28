@@ -114,7 +114,7 @@
                     </div>
                     <div class="flex items-center ml-2">
                       <button (click)="generateSelectedSubCategories()"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                        class="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 text-white font-semibold py-1 px-2 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 w-12 text-sm"
                         aria-label="Generate selected subcategories">✔</button>
                     </div>
                   </div>
@@ -136,12 +136,12 @@
                         <div class="flex items-center flex-1 space-x-2">
                           <span class="text-sm font-medium text-gray-700 w-1/3">{{ subCategory }}</span>
                           <select [(ngModel)]="subCategoryStatus[subCategory]"
-                            class="border border-gray-300 p-1 rounded-lg w-1/3">
+                            class="border border-gray-300 p-1 rounded-lg w-1/2">
                             <option value="buen_estado">Buen estado</option>
                             <option value="mal_estado">Mal estado</option>
                           </select>
                           <button (click)="removeGeneratedSubCategory(subCategory)"
-                            class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 w-1/3"
+                            class="bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:from-red-500 hover:via-red-600 hover:to-red-700 text-white font-semibold py-1 px-2 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 w-12 text-sm"
                             aria-label="Remove subcategory">✖</button>
                         </div>
                       </div>
