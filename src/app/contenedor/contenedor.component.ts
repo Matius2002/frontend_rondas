@@ -181,13 +181,13 @@ export class ContenedorComponent {
       case 'Impresoras':
         return ['Adf', 'Atasco', 'Bandeja', 'Toner', 'Error', 'Cristal','Otro'];
       case 'Camaras':
-        return ['Fecha', 'Imagen', 'Camaras', 'Rack','Otro'];
+        return ['Fecha', 'Imagen', 'Camaras', 'Rack','Almacenamiento','Otro'];
       case 'Infoturno':
         return ['Red', 'Papel', 'Atasco', 'Registro','Software','Servidor','Otro'];
       case 'Biometrico':
         return ['Red','Desincronizacion','Registro','Almacenamiento','Otro'];
       case 'Redes':
-        return ['Rack', 'Switch', 'Energia', 'Servidor', 'Fibra Optica','Otro'];
+        return ['Rack', 'Switch', 'Energia', 'Servidor', 'Fibra Optica','Conexiones','Otro'];
       default:
         return [];
     }
