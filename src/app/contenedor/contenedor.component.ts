@@ -21,12 +21,13 @@ export class ContenedorComponent {
   otherCategory: string = ''; // Nueva propiedad para almacenar la novedad de "otros"
   otherSubCategory: string = ''; 
   subCategoryStatus: { [key: string]: string } = {};
-  priority: string = '';
+  priority: string = ''; // Propiedad independiente para la prioridad
   novedad = {
     descripcion: ''
   };
   selectedOption: string | null = null; // Estado para la opción seleccionada
   showOtherInput: boolean = false; // Propiedad para controlar la visibilidad del input "Otro"
+  isOtherChecked: boolean = false; // Propiedad para controlar si el checkbox de "Otro" está seleccionado
 
   constructor(private http: HttpClient) {}
 
@@ -63,9 +64,14 @@ export class ContenedorComponent {
     this.generatedSubCategoriesList = []; // Limpiar la lista generada al cambiar la categoría
     this.subCategoryStatus = {};
     this.showOtherInput = false; // Resetear la visibilidad del input "Otro"
+    this.isOtherChecked = false; // Resetear el estado del checkbox "Otro"
     if (this.selectedCategory !== 'otros') {
       this.otherCategory = ''; // Limpiar el valor de la novedad "otros"
     }
+  }
+
+  onPriorityChange(event: any): void {
+    this.priority = event.target.value;
   }
 
   // Nuevo método para manejar el cambio de los checkboxes
@@ -73,13 +79,30 @@ export class ContenedorComponent {
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.value === 'Otro') {
       this.showOtherInput = checkbox.checked;
-    }
-    if (checkbox.checked) {
-      this.selectedSubCategories.push(checkbox.value);
+      this.isOtherChecked = checkbox.checked; // Actualiza el estado de "Otro"
+
+      if (checkbox.checked) {
+        // Desmarcar todos los otros checkboxes
+        this.selectedSubCategories = [];
+        const checkboxes = document.querySelectorAll(`input[type="checkbox"]`);
+        checkboxes.forEach(cb => {
+          if ((cb as HTMLInputElement).value !== 'Otro') {
+            (cb as HTMLInputElement).checked = false;
+          }
+        });
+      }
     } else {
-      this.selectedSubCategories = this.selectedSubCategories.filter(subCategory => subCategory !== checkbox.value);
-      if (checkbox.value === 'Otro') {
-        this.otherSubCategory = '';
+      if (checkbox.checked) {
+        this.selectedSubCategories.push(checkbox.value);
+        // Desmarcar el checkbox de "Otro"
+        this.isOtherChecked = false;
+        this.showOtherInput = false;
+        const otherCheckbox = document.querySelector(`input[type="checkbox"][value="Otro"]`) as HTMLInputElement;
+        if (otherCheckbox) {
+          otherCheckbox.checked = false;
+        }
+      } else {
+        this.selectedSubCategories = this.selectedSubCategories.filter(subCategory => subCategory !== checkbox.value);
       }
     }
   }
@@ -116,7 +139,6 @@ export class ContenedorComponent {
       this.generatedSubCategoriesList.push(this.otherSubCategory);
     }
   }
-  
 
   // Método para eliminar una subcategoría de la lista generada y desmarcar el checkbox correspondiente
   removeGeneratedSubCategory(subCategory: string): void {
