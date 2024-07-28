@@ -105,11 +105,18 @@ export class ContenedorComponent {
 
   // Nuevo método para generar la lista de subcategorías seleccionadas
   generateSelectedSubCategories(): void {
-    this.generatedSubCategoriesList = this.selectedSubCategories.filter(subCategory => subCategory !== 'Otro');
+    if (this.otherSubCategory.trim() === '') { // Verifica si el input está vacío
+      this.generatedSubCategoriesList = this.selectedSubCategories.filter(subCategory => subCategory !== 'Otro');
+    } else {
+      // Limpia la lista generada si hay texto en el input
+      this.generatedSubCategoriesList = [];
+    }
+    
     if (this.otherSubCategory.trim() !== '') {
       this.generatedSubCategoriesList.push(this.otherSubCategory);
     }
   }
+  
 
   // Método para eliminar una subcategoría de la lista generada y desmarcar el checkbox correspondiente
   removeGeneratedSubCategory(subCategory: string): void {

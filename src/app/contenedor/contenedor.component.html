@@ -127,7 +127,8 @@
                 </div>
 
                 <!-- CONTENEDOR PARA MOSTRAR LAS SUBCATEGORÍAS GENERADAS -->
-                <div class="w-full mt-4 flex-grow overflow-y-auto" *ngIf="generatedSubCategoriesList.length > 0">
+                <div class="w-full mt-4 flex-grow overflow-y-auto"
+                  *ngIf="generatedSubCategoriesList.length > 0 && otherSubCategory.trim() === ''">
                   <div class="border border-gray-300 p-2 rounded-lg w-full">
                     <div *ngFor="let subCategory of generatedSubCategoriesList"
                       class="flex items-center justify-between mb-2 w-full">
