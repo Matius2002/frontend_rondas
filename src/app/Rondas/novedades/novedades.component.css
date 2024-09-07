@@ -1,0 +1,68 @@
+/* Estilos generales para la tabla */
+.table-container {
+    width: 100%;
+    max-height: 400px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto; /* Desplazamiento vertical */
+    border: 1px solid #ddd; /* Opcional: Agrega un borde para visibilidad */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Asegura que la tabla tenga un ancho fijo */
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0; /* Fija el encabezado en la parte superior del contenedor */
+    z-index: 1; /* Asegura que el encabezado esté por encima del cuerpo de la tabla */
+  }
+  
+  /* Estilo para dispositivos móviles */
+  @media (max-width: 800px) {
+    .table-container {
+      max-height: none; /* Elimina la altura máxima en pantallas más pequeñas si es necesario */
+    }
+  
+    table {
+      border: 0;
+    }
+  
+    thead {
+      display: none;
+    }
+  
+    tr {
+      display: block;
+      margin-bottom: 0.625em;
+    }
+  
+    td {
+      display: block;
+      text-align: right;
+      position: relative;
+      padding-left: 50%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  
+    td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+  

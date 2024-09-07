@@ -1,0 +1,154 @@
+<div @fadeAnimation
+  class="fixed flex w-full h-full top-0 left-0 pt-2 pr-2 pb-2 pl-[80px] bg-gray-100 items-center justify-center">
+  <div
+  class="relative flex flex-col w-full h-full border border-gray-300 bg-white p-2 shadow-md shadow-gray-400 rounded-3xl">
+  <!-- TITULOS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+  <div class="flex items-center justify-center h-screen">    
+    <div class="flex flex-col gap-4 items-center mx-4 w-64">
+        <h2 class="text-lg font-bold mb-4">Administración</h2>
+            <button (click)="openModal(1)" class="w-full h-12 px-6 py-1 text-slate-500 border border-gray-300 shadow shadow-gray-400 rounded-full bg-white transition ease-in-out duration-200 hover:scale-105 hover:bg-blue-500 hover:border-blue-600 hover:text-white active:scale-95 active:bg-blue-700 active:border-blue-800 font-semibold whitespace-nowrap">
+            Tipo Novedad Tecnologica
+            </button>
+            <button (click)="openModal(5)" class="w-full h-12 px-6 py-1 text-slate-500 border border-gray-300 shadow shadow-gray-400 rounded-full bg-white transition ease-in-out duration-200 hover:scale-105 hover:bg-blue-500 hover:border-blue-600 hover:text-white active:scale-95 active:bg-blue-700 active:border-blue-800 font-semibold whitespace-nowrap">
+            Categoria
+            </button>
+            <button (click)="openModal(2)" class="w-full h-12 px-6 py-1 text-slate-500 border border-gray-300 shadow shadow-gray-400 rounded-full bg-white transition ease-in-out duration-200 hover:scale-105 hover:bg-blue-500 hover:border-blue-600 hover:text-white active:scale-95 active:bg-blue-700 active:border-blue-800 font-semibold whitespace-nowrap">
+            Torres
+            </button>       
+            <button (click)="openModal(3)" class="w-full h-12 px-6 py-1 text-slate-500 border border-gray-300 shadow shadow-gray-400 rounded-full bg-white transition ease-in-out duration-200 hover:scale-105 hover:bg-blue-500 hover:border-blue-600 hover:text-white active:scale-95 active:bg-blue-700 active:border-blue-800 font-semibold whitespace-nowrap">
+            Pisos
+            </button>
+            <button (click)="openModal(4)" class="w-full h-12 px-6 py-1 text-slate-500 border border-gray-300 shadow shadow-gray-400 rounded-full bg-white transition ease-in-out duration-200 hover:scale-105 hover:bg-blue-500 hover:border-blue-600 hover:text-white active:scale-95 active:bg-blue-700 active:border-blue-800 font-semibold whitespace-nowrap">
+            Areas
+            </button>
+        </div>
+    </div>
+  <!-- CONTENIDO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+</div>
+</div>
+
+<div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h2 class="text-xl font-bold mb-4">{{tittle}}</h2>
+      <div *ngIf="form === 1">
+        <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <!-- Campo de Entrada (Input) -->
+            <div>
+            <label for="nombre">Nombre {{tittle}}:</label>
+            <input id="nombre" type="text" formControlName="nombre" placeholder="EJ: Software, Hardware, Aplicaciones, ...">
+            <!-- Mensaje de error si el campo de entrada es inválido -->
+            </div>
+            <!-- Botón para enviar el formulario -->
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Enviar</button>&nbsp;
+            <button (click)="closeModal()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Cerrar
+            </button>
+        </form> 
+      </div>
+      <div *ngIf="form === 2">        
+        <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+        <!-- Campo de Entrada (Input) -->
+            <div>
+                <label for="nombre">Nombre {{tittle}}:</label>
+                <input id="nombre" type="text" formControlName="nombreTorre" placeholder="EJ: Santa Sofia, Torre 5, Torre 6...">
+                <!-- Mensaje de error si el campo de entrada es inválido -->
+            </div>
+        
+            <!-- Botón para enviar el formulario -->
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Enviar</button>&nbsp;
+            <button (click)="closeModal()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Cerrar
+            </button>
+        </form> 
+      </div>
+      <div *ngIf="form === 3">
+        <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <!-- Campo de Entrada (Input) -->
+            <div>
+            <label for="nombre">Nombre {{tittle}}:</label>
+            <input id="nombre" type="text" formControlName="nombre" placeholder="EJ: Piso 1, Enfermeria, UCI...">
+            <!-- Mensaje de error si el campo de entrada es inválido -->
+            </div>
+        
+            <!-- Campo de Selección (Select) -->
+            <div>
+            <label for="pais">Torre:</label>
+            <select id="pais" formControlName="id">
+                <option value="">Seleccione un país</option>
+                <option *ngFor="let torre of torres " value="{{torre.id}}">{{ torre.nombreTorre }}</option>
+            </select>
+            <!-- Mensaje de error si el campo de selección es inválido -->
+            </div>
+        
+            <!-- Botón para enviar el formulario -->
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Enviar</button>&nbsp;
+            <button (click)="closeModal()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Cerrar
+            </button>
+        </form> 
+      </div>     
+      <div *ngIf="form === 4">
+        <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <!-- Campo de Entrada (Input) -->
+            <div>
+            <label for="nombre">Nombre {{tittle}}:</label>
+            <input id="nombre" type="text" formControlName="nombre" placeholder="EJ: Piso 1, Enfermeria, UCI...">
+            <!-- Mensaje de error si el campo de entrada es inválido -->
+            </div>
+        
+            <!-- Campo de Selección (Select) -->
+            <div>
+            <label for="pais">Torre:</label>
+            <select id="pais" formControlName="id" (change)="getPisos()">
+                <option value="">Seleccione un país</option>
+                <option *ngFor="let torre of torres " value="{{torre.id}}">{{ torre.nombreTorre }}</option>
+            </select>
+            <!-- Mensaje de error si el campo de selección es inválido -->
+            </div>
+
+            <div>
+            <label for="pais">Piso:</label>
+            <select id="pais" formControlName="id2">
+                <option value="">Seleccione un país</option>
+                <option *ngFor="let piso of pisos " value="{{piso.id}}">{{ piso.nombrePiso }}</option>
+            </select>
+            <!-- Mensaje de error si el campo de selección es inválido -->
+            </div>
+        
+            <!-- Botón para enviar el formulario -->
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Enviar</button>&nbsp;
+            <button (click)="closeModal()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Cerrar
+            </button>
+        </form> 
+      </div> 
+      <div *ngIf="form === 5">
+        <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <!-- Campo de Entrada (Input) -->
+            <div>
+            <label for="nombre">Nombre {{tittle}}:</label>
+            <input id="nombre" type="text" formControlName="nombre" placeholder="EJ: CPU, Mouse, Teclado, ...">
+            <!-- Mensaje de error si el campo de entrada es inválido -->
+            </div>
+
+            <!-- Campo de Selección (Select) -->
+            <div>
+              <label for="pais">Tipo de Novedad:</label>
+              <select id="pais" formControlName="id">
+                  <option value="">Seleccione un opción</option>
+                  <option *ngFor="let subNovedad of subNovedades " value="{{subNovedad.id}}">{{ subNovedad.nombreSubNovedad }}</option>
+              </select>
+              <!-- Mensaje de error si el campo de selección es inválido -->
+            </div>
+
+            <!-- Botón para enviar el formulario -->
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Enviar</button>&nbsp;
+            <button (click)="closeModal()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Cerrar
+            </button>
+        </form> 
+      </div>    
+      <div class="flex justify-end mt-4">
+      </div>
+    </div>
+  </div>

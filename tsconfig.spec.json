@@ -1,0 +1,14 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "./tsconfig.json", /*Esto indica que este archivo extiende de otro archivo tsconfig.json, que es la configuración principal*/
+  "compilerOptions": { /*Aquí se definen las opciones del compilador específicas para las pruebas.*/
+    "outDir": "./out-tsc/spec",
+    "types": [
+      "jasmine"
+    ]
+  },
+  "include": [ /*Esta sección define los archivos que deben incluirse en la compilación*/
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}

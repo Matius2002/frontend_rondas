@@ -1,0 +1,198 @@
+<!-- BASE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+<div @fadeAnimation
+  class="fixed flex w-full h-full top-0 left-0 pt-2 pr-2 pb-2 pl-[80px] bg-gray-100 items-center justify-center">
+  <!-- WHITE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+  <div
+    class="relative flex flex-col w-full h-full border border-gray-300 bg-white p-2 shadow-md shadow-gray-400 rounded-3xl">
+    <!-- TITULOS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+    <div class="relative flex w-full h-auto px-4 py-1 items-center justify-center">
+      <div class="flex w-4/12 h-auto items-center justify-center">
+        <img ngSrc="assets/LOGOJUNICAL.jpg" height="37" width="260">
+      </div>
+      <div class="flex w-4/12 h-auto items-center justify-center text-slate-500">
+        <span class="tracking-widest font-bold text-2xl">Registro Nueva Ronda # {{ id }}</span>
+      </div>
+      <div class="flex flex-col w-4/12 h-auto">
+        <div class="flex w-full h-auto gap-2">
+          <span class="tracking-wide font-semibold text-slate-500">Fecha:</span>
+          <span class="w-full text-slate-500 font-light"></span>
+        </div>
+        <div class="flex w-full h-auto gap-2">
+          <span class="tracking-wide font-semibold text-slate-500">Hora:</span>
+          <span class="w-full text-slate-500 font-light"></span>
+        </div>
+        <div class="flex w-full h-auto gap-2">
+          <span class="tracking-wide font-semibold text-slate-500">Servicio:</span>
+
+        </div>
+      </div>
+    </div>
+    <!-- TITULOS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+    <!-- CONTENIDO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+    <div class="flex flex-col w-full h-full border border-gray-300 rounded-2xl overflow-y-auto">
+      <!-- TABS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+      <div class="flex w-full h-[10%] border-b border-gray-300 items-center justify-center divide-x divide-gray-300">
+        <button (click)="changeTab(1)"
+          class="flex w-full h-full items-center justify-center rounded-tl-[15px] transition ease-in-out duration-200 {{ selectedTab == 1 ? 'bg-sky-500 text-white shadow-inner shadow-sky-600' : 'bg-white text-slate-500 hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <span class="tracking-wide font-bold">LISTA DE NOVEDADES TECNOLOGICA</span>
+        </button><!--
+        <button (click)="changeTab(2)" [disabled]="novedades.length == 0"
+          class="flex w-full h-full items-center justify-center transition ease-in-out duration-200 {{ novedades.length == 0 ? 'bg-gray-200 text-gray-400 border-gray-400' : selectedTab == 2 ? 'bg-sky-500 text-white shadow-inner shadow-sky-600' : 'bg-white text-slate-500 hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <span class="tracking-wide font-bold">Anadir Novedad</span>
+        </button>-->
+      </div>
+      <!-- TABS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+
+      <!--Lista de novedades-->
+
+      <div class="flex flex-col w-full h-[90%] p-2 shadow-inner bg-gray-200 shadow-gray-300 overflow-y-auto">
+        <ng-container *ngFor="let novedad of novedades; let i = index;">
+          <!-- HEADER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <div
+            class="flex w-full h-[5%] gap-2 px-2 rounded-t-2xl bg-sky-500 border-b border-gray-300 shadow-md shadow-gray-300">
+            <div class="flex w-full h-full items-center justify-center align-middle">
+              <button [disabled]="true"
+                class="flex w-full p-2 rounded-full items-center justify-center align-middle text-white">
+              </button>
+            </div>
+          </div>
+          <!-- HEADER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <!-- CONTENT EQUIPO LOADED =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <div class="flex w-full min-h-[45%] max-h-[45%] gap-2 pb-2 px-2 bg-white rounded-b-2xl shadow-md {{ i != novedades.length - 1 ? 'mb-2' : ''}}">
+            <!-- LEFT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            <div class="flex w-[100%] h-full gap-2">
+              <!-- CONTAINER PRUEBAS FUNCIONAMIENTO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+              <div class="flex flex-col w-full h-full">
+                <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Lista de Sub Categoria</span>
+                </div>
+                <!-- INICIO -->
+                <div class="relative flex flex-col w-full h-full border border-gray-300 bg-gray-100 rounded-xl overflow-y-auto">
+                  <div class="flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300">
+                    <div class="flex w-[70%] h-8 items-center align-middle text-slate-900 px-2">
+                      <h2><strong>Prioridad: </strong>{{ novedad.prioridad }}</h2>
+                    </div>
+                  </div>
+
+                  <div class="flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300">
+                    <div class="flex w-[70%] h-8 items-center align-middle text-slate-900 px-2">
+                      <h2><strong>Tipo de novedad: </strong>{{ novedad.categoriaId }}</h2>
+                    </div>
+                  </div>
+                  
+                  <div class="flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300" *ngFor="let category of categories[i] | keyvalue">
+                    <div class="flex w-[70%] h-8 items-center align-middle text-slate-900 px-2">
+                      <span class="tracking-wide font-normal"><strong>Novedad: </strong> {{ category.key }} en </span>
+                      <span class="tracking-wide font-normal ml-1">{{ category.value }}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- FIN -->
+              </div>
+              <!-- CONTAINER PRUEBAS FUNCIONAMIENTO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+              <!-- CONTAINER OBSERVACIONES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+              <div class="flex flex-col w-full h-full">
+                <div class="relative flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Observaciones</span>
+                </div>
+
+                <!-- INICIO -->
+                <div
+                  class="relative flex flex-col w-full h-[90%] border border-gray-300 bg-gray-100 rounded-xl divide-y divide-gray-300 overflow-y-auto">
+                  <div @fadeAnimation class="flex w-full h-min-14 h-max-auto bg-white gap-2">
+                    <div class="flex w-max-[90%] h-min-14 h-max-auto text-slate-900 p-2 pr-0">
+                      <span class="font-normal text-sm"> {{ novedad.observacion }} </span>
+                    </div>
+                  </div>
+                </div>
+                <!--¿QUEDO RESUELTO LA NOVEDAD?-->
+                <h2 class="text-base font-medium mb-4 text-gray-600 text-center w-full">¿Quedó resuelta la novedad?</h2>
+                
+                
+                <div class="w-full flex justify-center">
+                  <button [ngClass]="{
+                      'bg-gradient-to-r from-blue-400 to-blue-600 text-white': novedad.resuelto === true,
+                      'bg-gray-200 text-gray-600': novedad.resuelto !== true
+                    }"
+                    class="w-14 px-2 py-2 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm mr-4 ">
+                    Sí
+                  </button>
+                  <button [ngClass]="{
+                      'bg-gradient-to-r from-red-400 to-red-600 text-white': novedad.resuelto === false,
+                      'bg-gray-200 text-gray-600': novedad.resuelto !== false
+                    }"
+                    class="w-14 px-2 py-2 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm">
+                    No
+                  </button>
+                </div>                
+                <!--AQUÍ ESTABA PRIORIDAD-->
+                <!-- FIN -->
+              </div>
+              <!-- CONTAINER OBSERVACIONES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            </div>
+            <!-- LEFT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+            <!-- RIGHT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            <!-- <div class="flex w-[35%] h-full">-->
+            <!-- CONTAINER IMAGENES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            <!-- <div class="flex flex-col w-full h-full">
+                <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Imágenes</span>
+                </div>
+                <div class="flex w-full h-full overflow-y-auto">
+                  <div
+                    class="grid grid-cols-2 grid-cols-[50, 50%, 50%, 50%] w-full h-full overflow-y-auto gap-2 p-2 rounded-xl bg-gray-100 border border-gray-300">
+                    <button (click)="deleteImage(i)" *ngFor="let image of novedad.images; let i = index;"
+                      class="flex w-full h-full p-2 rounded-xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-sky-500">
+                      <img [src]="image.url">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+            <!-- RIGHT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          </div>
+          <!-- CONTENT EQUIPO LOADED =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+        </ng-container>
+      </div>
+      <!--Fin de lista de novedades-->
+
+      <!--Fin de contenido de Mateo Mora-->
+    </div>
+    <!-- CONTENIDO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+  </div>
+  <!-- WHITE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+</div>
+<!-- BASE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+<script>
+  // El código JavaScript para procesar y mostrar los datos
+
+  // Convierte el string JSON en un objeto JavaScript
+
+  // Convierte el string JSON en un array de arrays
+  const array = JSON.parse(novedades.categorias);
+
+  // Asumiendo que el array contiene solo un par de clave-valor
+  const key = array[0][0];
+  const value = array[0][1];
+
+  // Selecciona el tbody de la tabla
+  const tableBody = document.querySelector('#data-table tbody');
+
+  // Crea una fila con los datos del objeto
+  const row = document.createElement('tr');
+  const keyCell = document.createElement('td');
+  const valueCell = document.createElement('td');
+
+  keyCell.textContent = key;
+  valueCell.textContent = value;
+
+  row.appendChild(keyCell);
+  row.appendChild(valueCell);
+
+  tableBody.appendChild(row);
+</script>

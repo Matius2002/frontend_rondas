@@ -1,0 +1,671 @@
+<!-- BASE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+<div @fadeAnimation
+  class="fixed flex w-full h-full top-0 left-0 pt-2 pr-2 pb-2 pl-[80px] bg-gray-100 items-center justify-center">
+  <!-- WHITE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+  <div *ngIf="!modalServicio"
+    class="relative flex flex-col w-full h-full border border-gray-300 bg-white p-2 shadow-md shadow-gray-400 rounded-3xl">
+    <!-- TITULOS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+    <div class="relative flex w-full h-auto px-4 py-1 items-center justify-center">
+      <div class="flex w-4/12 h-auto items-center justify-center">
+        <img ngSrc="assets/LOGOJUNICAL.jpg" height="37" width="260">
+      </div>
+      <div class="flex w-4/12 h-auto items-center justify-center text-slate-500">
+        <span class="tracking-widest font-bold text-2xl">Registro Nueva Ronda # {{ idRonda }}</span>
+      </div>
+      <div class="flex flex-col w-4/12 h-auto">
+        <div class="flex w-full h-auto gap-2">
+          <span class="tracking-wide font-semibold text-slate-500">Fecha:</span>
+          <span class="w-full text-slate-500 font-light">{{ fechaInicioRonda }}</span>
+        </div>
+        <div class="flex w-full h-auto gap-2">
+          <span class="tracking-wide font-semibold text-slate-500">Hora:</span>
+          <span class="w-full text-slate-500 font-light">{{ horaInicioRonda }}</span>
+        </div>
+        <div class="flex w-full h-auto gap-2">
+          <span class="tracking-wide font-semibold text-slate-500">Servicio:</span>
+          <span *ngIf="selectedSede && selectedPiso && selectedArea" class="w-full text-slate-500 font-light">{{
+            selectedArea }}, {{ selectedPiso + ", T" + selectedSede }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- TITULOS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+    <!-- CONTENIDO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+    <div class="flex flex-col w-full h-full border border-gray-300 rounded-2xl overflow-y-auto">
+      <!-- TABS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+      <div class="flex w-full h-[10%] border-b border-gray-300 items-center justify-center divide-x divide-gray-300">
+        <button (click)="changeTab(1)" class="flex w-full h-full items-center justify-center rounded-tl-[15px] transition ease-in-out duration-200 {{ selectedTab == 1 ? 'bg-sky-500 text-white shadow-inner shadow-sky-600' : 'bg-white text-slate-500 hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <span class="tracking-wide font-bold">Añadir Novedad</span>
+        </button>
+        <button (click)="changeTab(2)" [disabled]="novedades.length == 0"
+          class="flex w-full h-full items-center justify-center transition ease-in-out duration-200 {{ novedades.length == 0 ? 'bg-gray-200 text-gray-400 border-gray-400' : selectedTab == 2 ? 'bg-sky-500 text-white shadow-inner shadow-sky-600' : 'bg-white text-slate-500 hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <span class="tracking-wide font-bold">Lista Novedades</span>
+        </button>
+        <button (click)="changeTab(3)" [disabled]="novedades.length == 0"
+          class="flex w-full h-full items-center justify-center transition ease-in-out duration-200 {{ novedades.length == 0 ? 'bg-gray-200 text-gray-400 border-gray-400' : selectedTab == 3 ? 'bg-sky-500 text-white shadow-inner shadow-sky-600' : 'bg-white text-slate-500 hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <span class="tracking-wide font-bold">Firma Usuario</span>
+        </button>
+        <button (click)="changeTab(4)" [disabled]="linkFirmaUno == ''"
+          class="flex w-full h-full items-center justify-center transition ease-in-out duration-200 {{ linkFirmaUno == '' ? 'bg-gray-200 text-gray-400 border-gray-400' : selectedTab == 4 ? 'bg-sky-500 text-white shadow-inner shadow-sky-600' : 'bg-white text-slate-500 hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <span class="tracking-wide font-bold">Firma Responsable</span>
+        </button>
+      </div>
+      <!-- TABS =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+      <!--Añadir novidad-->
+      <div *ngIf="selectedTipoNovedad == 3 && selectedTab == 1" class="flex flex-col w-full h-[90%] p-2 shadow-inner bg-gray-200 shadow-gray-300">
+        <!--Cabeza-->
+        <div class="flex w-full h-[20%] gap-2 bg-white px-2 rounded-t-2xl shadow-md shadow-gray-300 border-t border-r border-l border-gray-300">
+          <!--FIN DEL SELECT DE TIPO DE NOVEDAD-->
+          <div class="flex w-full h-full items-center justify-center align-middle gap-2">
+            <select [(ngModel)]="priority" (change)="onPriorityChange($event)" name="tipoNovedadPrioridad"
+              id="tipoNovedadPrioridad"
+              class="flex w-full p-0 px-4 py-4 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0"
+              placeholder="Seleccione la prioridad" required>
+              <option value="" disabled selected>1. Seleccione Prioridad</option>
+              <option value="critico">Crítico</option>
+              <option value="alto">Alto</option>
+              <option value="medio">Medio</option>
+              <option value="bajo">Bajo</option>
+            </select>
+          </div>
+
+          <!--BOTÓN AÑADIR NOVEDAD-->
+          <div class="flex w-full h-full items-center justify-center align-middle gap-2">
+            <button (click)="addNovedad()"
+              class="flex w-full p-0 px-4 py-4 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 bg-gradient-to-r from-white via-white to-white hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0 font-semibold transition ease-in-out duration-200 justify-center">
+              Añadir Novedad
+            </button>
+          </div>
+        </div>
+        <!--Fin de cabeza-->
+
+        <!-- Contenedor bg-white que envuelve los tres contenedores -->
+        <div
+          class="flex flex-col w-full h-[80%] bg-white rounded-b-2xl shadow-md shadow-gray-300 border-r border-b border-l border-gray-300">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-0 h-full">
+            <!-- CONTENEDOR PRINCIPAL -->
+            <div class="w-full p-1 flex flex-col justify-start items-center h-full overflow-y-auto">
+              <div
+                class="bg-white p-1 sm:p-2 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg w-full flex flex-col justify-start items-start transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl flex-grow">
+                <h2 class="text-base font-medium mb-1 text-gray-600 text-center w-full">2. Tipo de novedad tecnológica</h2>
+
+                <!-- SELECT PRINCIPAL -->
+                <select [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange($event)" name="tipoNovedadTecnologica"
+                  id="tipoNovedadTecnologica"
+                  class="flex w-full p-0 px-2 py-3 rounded-full shadow-md shadow-gray-300 border border-gray-300 text-slate-500 font-semibold transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0"
+                  placeholder="Seleccione la prioridad"> 
+                  
+                  <option value="" disabled selected>Seleccione una novedad</option> 
+                  <option *ngFor="let tipo of tipoNovedadTecnologica" [ngValue]="tipo.id">
+                    {{ tipo.nombreSubNovedad }}
+                  </option>
+                  <option value="otros">OTRO</option>
+                </select>
+                <!--FIN DEL SELECT PRINCIPAL-->
+
+                <!-- INPUT PARA OTRA CATEGORÍA PRINCIPAL -->
+                <div class="w-full mt-4" *ngIf="selectedCategory === 'otros'">
+                  <input type="text" [(ngModel)]="otherCategory" placeholder="Ingrese la novedad"
+                    class="w-full p-2 border border-gray-300 rounded-lg">
+                </div>
+
+                <!-- CHIPS DE SELECCIÓN MULTIPLE -->
+                <div class="w-full mt-4" *ngIf="selectedCategory && selectedCategory != 'otros'">
+                  <div class="flex">
+                    <div class="flex items-center mb-2">
+                      <span class="text-base font-medium text-gray-600">3.</span> <!-- Enumeración antes del contenedor -->
+                    </div>
+                    <div class="border border-gray-300 p-2 rounded-lg h-32 overflow-y-auto flex-1">
+                      <div *ngFor="let subCategoria of getSubCategories()" class="flex items-center mb-1">
+                        <input type="checkbox" [value]="subCategoria.nombreCategoria" (change)="onCheckboxChange($event)" class="mr-2">
+                        <label class="text-gray-700">{{subCategoria.nombreCategoria}}</label>
+                      </div>
+                      <div class="flex items-center mb-1">
+                        <!--<input type="checkbox" [value]="'otros'" (change)="onCheckboxChange($event)" class="mr-2">
+                        <label for="" class="text-gray-700">OTRO</label>-->
+                      </div>
+                    </div>
+                    <div class="flex items-center ml-2">
+                      <button (click)="generateSelectedSubCategories()"
+                        class="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 text-white font-semibold py-1 px-2 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 w-12 text-sm"
+                        aria-label="Generate selected subcategories">✔</button>
+                    </div>
+                  </div>
+                </div>                
+
+                <!-- INPUT PARA OTRA SUBCATEGORÍA -->
+                <div class="w-full mt-4" *ngIf="showOtherInput">
+                  <input type="text" [(ngModel)]="otherSubCategory" placeholder="Ingrese la novedad"
+                    class="w-full p-2 border border-gray-300 rounded-lg">
+                </div>
+
+                <!-- CONTENEDOR PARA MOSTRAR LAS SUBCATEGORÍAS GENERADAS -->
+                <div class="w-full mt-4 flex-grow overflow-y-auto" *ngIf="generatedSubCategoriesList.length > 0 && !isOtherChecked">
+                  <div class="flex items-center mb-2">
+                    <span class="text-base font-medium text-gray-600">4.</span> <!-- Enumeración antes del contenedor -->
+                  </div>
+                  <div class="border border-gray-300 p-2 rounded-lg w-full">
+                    <div class="space-y-2">
+                      <div *ngFor="let subCategory of generatedSubCategoriesList" class="flex items-center justify-between p-2 border border-gray-200 rounded-lg shadow-sm">
+                        <div class="flex items-center flex-1 space-x-2">
+                          <span class="text-sm font-medium text-gray-700 w-1/3">{{ subCategory }}</span>
+                          <select [(ngModel)]="subCategoryStatus[subCategory]"
+                            class="border border-gray-300 p-1 rounded-lg w-1/2">
+                            <option value="buen_estado">Funcional</option>
+                            <option value="mal_estado">No Funcional</option>
+                          </select>
+                          <button (click)="removeGeneratedSubCategory(subCategory)"
+                            class="bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:from-red-500 hover:via-red-600 hover:to-red-700 text-white font-semibold py-1 px-2 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 w-12 text-sm"
+                            aria-label="Remove subcategory">✖</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--CONTENEDOR 2-->
+            <div class="w-full p-1 flex flex-col justify-start items-center h-full overflow-hidden">
+              <div
+                class="bg-white p-1 sm:p-2 shadow-2xl ring-1 ring-gray-900/5 sm:rounded-lg h-full w-full flex flex-col justify-start items-start overflow-y-auto transition duration-300 transform hover:-translate-y-1 hover:shadow-2xl">
+                <!--DESCRIPCIÓN-->
+                <h2 class="text-base font-medium mt-4 mb-4 text-gray-600 text-center w-full">5. Observacion</h2>
+                <form class="w-full">
+                  <div class="mb-4 w-full">
+                    <textarea id="textArea" rows="6"
+                      class="w-full border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 resize-none p-2"
+                      placeholder="Describa la novedad" [(ngModel)]="novedad.descripcion" name="descripcion"></textarea>
+                  </div>
+                </form>
+
+                <!--¿QUEDO RESUELTO LA NOVEDAD?-->
+                <h2 class="text-base font-medium mb-4 text-gray-600 text-center w-full">6. ¿Quedó resuelta la novedad?</h2>
+                <div class="w-full flex justify-center">
+                  <button (click)="setOption(true)"
+                    [ngClass]="{'bg-gradient-to-r from-blue-400 to-blue-600 text-white': selectedOption === true, 'bg-gray-200 text-gray-600': selectedOption !== true}"
+                    class="w-12 px-2 py-1 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm">Sí</button>
+                  <button (click)="setOption(false)"
+                    [ngClass]="{'bg-gradient-to-r from-red-400 to-red-600 text-white': selectedOption === false, 'bg-gray-200 text-gray-600': selectedOption !== false}"
+                    class="w-12 px-2 py-1 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm ml-12">No</button>
+                </div>
+              </div>
+            </div>
+            <!--FIN DEL CONTENEDOR 2-->
+          </div>
+        </div>
+      </div>
+      <!--Fin de Añadir Novedad-->
+
+      <!--Lista de novedades-->
+
+      <div *ngIf="selectedTab == 2 && selectedTipoNovedad == 2" class="flex flex-col w-full h-[90%] p-2 shadow-inner bg-gray-200 shadow-gray-300 overflow-y-auto">
+        <ng-container *ngFor="let novedad of novedades; let i = index;">
+          <!-- HEADER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <div class="flex w-full h-[5%] gap-2 px-2 rounded-t-2xl bg-sky-500 border-b border-gray-300 shadow-md shadow-gray-300">
+            <div class="flex w-full h-full items-center justify-center align-middle">
+              <button [disabled]="true"
+                class="flex w-full p-2 rounded-full items-center justify-center align-middle text-white">
+                <span class="tracking-wide font-semibold"> {{ novedad.equipo.nombreEquipo }} </span>
+              </button>
+            </div>
+          </div>
+          <!-- HEADER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+          <!-- CONTENT EQUIPO LOADED =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <div class="flex w-full min-h-[45%] max-h-[45%] gap-2 pb-2 px-2 bg-white rounded-b-2xl shadow-md {{ i != novedades.length - 1 ? 'mb-2' : ''}}">
+            <!-- LEFT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            <div class="flex w-[70%] h-full gap-2">
+              <!-- CONTAINER PRUEBAS FUNCIONAMIENTO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+              <div class="flex flex-col w-full h-full">
+                <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Pruebas de Funcionamiento</span>
+                </div>
+                <!-- INICIO -->
+                <div class="relative flex flex-col w-full h-full border border-gray-300 bg-gray-100 rounded-xl overflow-y-auto">
+                  <div class="sticky top-0 flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300 shadow-md rounded-t-lg">
+                    <div class="flex w-[70%] h-8 items-center justify-center align-middle text-slate-500">
+                      <span class="tracking-wide font-semibold">Accesorio</span>
+                    </div>
+                    <div class="flex w-[30%] h-8 items-center justify-center align-middle">
+                      <div class="flex w-full h-8 items-center justify-center text-sky-500">
+                        <svg width="25px" height="25px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                          fill="none">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 5L8 15l-5-4" />
+                        </svg>
+                      </div>
+                      <div class="flex w-full h-8 items-center justify-center text-red-500">
+                        <svg width="25px" height="25px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                          fill="none">
+                          <path fill="currentColor" fill-rule="evenodd"
+                            d="M16.293 17.707a1 1 0 001.414-1.414L11.414 10l6.293-6.293a1 1 0 00-1.414-1.414L10 8.586 3.707 2.293a1 1 0 00-1.414 1.414L8.586 10l-6.293 6.293a1 1 0 101.414 1.414L10 11.414l6.293 6.293z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngFor="let accesorio of novedad.equipo.accesorios; let i = index;"
+                    class="flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300">
+                    <div class="flex w-[70%] h-8 items-center align-middle text-slate-500 px-2">
+                      <span class="tracking-wide font-normal"> {{ accesorio.nombreAccesorio }} </span>
+                    </div>
+                    <div class="flex w-[30%] h-8 items-center justify-center align-middle">
+                      <button [disabled]="true"
+                        class="flex w-full h-8 items-center justify-center {{ novedad.pruebaFuncionamientoCheck[i] == 1 ? 'text-white bg-sky-500 hover:bg-sky-500' : 'text-slate-500' }}">
+                        <svg width="25px" height="25px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                          fill="none">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 5L8 15l-5-4" />
+                        </svg>
+                      </button>
+                      <button [disabled]="true"
+                        class="flex w-full h-8 items-center justify-center {{ novedad.pruebaFuncionamientoCheck[i] == 2 ? 'text-white bg-red-500 hover:bg-red-500' : 'text-slate-500' }}">
+                        <svg width="25px" height="25px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                          fill="none">
+                          <path fill="currentColor" fill-rule="evenodd"
+                            d="M16.293 17.707a1 1 0 001.414-1.414L11.414 10l6.293-6.293a1 1 0 00-1.414-1.414L10 8.586 3.707 2.293a1 1 0 00-1.414 1.414L8.586 10l-6.293 6.293a1 1 0 101.414 1.414L10 11.414l6.293 6.293z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- FIN -->
+              </div>
+              <!-- CONTAINER PRUEBAS FUNCIONAMIENTO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+              <!-- CONTAINER OBSERVACIONES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+              <div class="flex flex-col w-full h-full">
+                <div class="relative flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Observaciones</span>
+                </div>
+
+                <!-- INICIO -->
+                <div
+                  class="relative flex flex-col w-full h-[90%] border border-gray-300 bg-gray-100 rounded-xl divide-y divide-gray-300 overflow-y-auto">
+                  <div @fadeAnimation *ngFor="let observacion of novedad.observacionField; let i = index;"
+                    class="flex w-full h-min-14 h-max-auto bg-white gap-2">
+                    <div class="flex w-max-[90%] h-min-14 h-max-auto text-slate-500 p-2 pr-0">
+                      <span class="font-light text-sm"> {{ observacion }} </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- FIN -->
+              </div>
+              <!-- CONTAINER OBSERVACIONES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            </div>
+            <!-- LEFT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+            <!-- RIGHT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            <div class="flex w-[35%] h-full">
+              <!-- CONTAINER IMAGENES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+              <div class="flex flex-col w-full h-full">
+                <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Imágenes</span>
+                </div>
+                <div class="flex w-full h-full overflow-y-auto">
+                  <div
+                    class="grid grid-cols-2 grid-cols-[50, 50%, 50%, 50%] w-full h-full overflow-y-auto gap-2 p-2 rounded-xl bg-gray-100 border border-gray-300">
+                    <button (click)="deleteImage(i)" *ngFor="let image of novedad.images; let i = index;"
+                      class="flex w-full h-full p-2 rounded-xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-sky-500">
+                      <img [src]="image.url">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- RIGHT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          </div>
+          <!-- CONTENT EQUIPO LOADED =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+        </ng-container>
+      </div>
+      <div *ngIf="selectedTab == 2 && selectedTipoNovedad == 3" class="flex flex-col w-full h-[90%] p-2 shadow-inner bg-gray-200 shadow-gray-300 overflow-y-auto">
+        <ng-container *ngFor="let novedad of novedades; let i = index;">
+          <!-- HEADER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <div class="flex w-full h-[5%] gap-2 px-2 rounded-t-2xl bg-sky-500 border-b border-gray-300 shadow-md shadow-gray-300">
+            <div class="flex w-full h-full items-center justify-center align-middle">
+              <button [disabled]="true"
+                class="flex w-full p-2 rounded-full items-center justify-center align-middle text-white">
+                <span class="tracking-wide font-semibold"> {{ novedad.categoria }} </span>
+              </button>
+            </div>
+          </div>
+          <!-- HEADER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <!-- CONTENT EQUIPO LOADED =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          <div class="flex w-full min-h-[45%] max-h-[45%] gap-2 pb-2 px-2 bg-white rounded-b-2xl shadow-md {{ i != novedades.length - 1 ? 'mb-2' : ''}}">
+            <!-- LEFT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            <div class="flex w-[100%] h-full gap-2">
+              <!-- CONTAINER PRUEBAS FUNCIONAMIENTO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+              <div class="flex flex-col w-full h-full">
+                <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Lista de Sub Categoria</span>
+                </div>
+                <!-- INICIO -->
+                <div class="relative flex flex-col w-full h-full border border-gray-300 bg-gray-100 rounded-xl overflow-y-auto">
+                  <div class="flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300">
+                    <div class="flex w-[70%] h-8 items-center align-middle text-slate-500 px-2">
+                      <span class="tracking-wide font-normal">Prioridad: {{ novedad.prioridad }} </span>
+                    </div>
+                  </div>
+                  <div *ngFor="let subCategory of novedad.listaSubCategories; let i = index;"
+                    class="flex w-full h-8 bg-white border-b border-gray-300 divide-x divide-gray-300">
+                    <div class="flex w-[70%] h-8 items-center align-middle text-slate-500 px-2">
+                      <span class="tracking-wide font-normal"> {{ subCategory }} </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- FIN -->
+              </div>
+              <!-- CONTAINER PRUEBAS FUNCIONAMIENTO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+              <!-- CONTAINER OBSERVACIONES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+              <div class="flex flex-col w-full h-full">
+                <div class="relative flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Observaciones</span>
+                </div>
+
+                <!-- INICIO -->
+                <div class="relative flex flex-col w-full h-[90%] border border-gray-300 bg-gray-100 rounded-xl divide-y divide-gray-300 overflow-y-auto">
+                  <div @fadeAnimation lass="flex w-full h-min-14 h-max-auto bg-white gap-2">
+                    <div class="flex w-max-[90%] h-min-14 h-max-auto text-slate-500 p-2 pr-0">
+                      <span class="font-light text-sm"> {{ novedad.observacionField}} </span>
+                    </div>
+                  </div>
+                  <div class="flex w-max-[90%] h-min-14 h-max-auto text-slate-500 p-2 pr-0">
+                    <span class="font-light text-sm">Quedo resuelto: {{ novedad.resuelto ? 'Sí' : 'No'}} </span>
+                  </div>
+                </div>
+
+                <!--<h2 class="text-base font-medium mb-4 text-gray-600 text-center w-full">¿Quedó resuelta la novedad?</h2>
+                
+                
+                <div class="w-full flex justify-center">
+                  <button [ngClass]="{
+                      'bg-gradient-to-r from-blue-400 to-blue-600 text-white': novedad.resuelto === true,
+                      'bg-gray-200 text-gray-600': novedad.resuelto !== true
+                    }"
+                    class="w-14 px-2 py-2 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm mr-4 ">
+                    Sí
+                  </button>
+                  <button [ngClass]="{
+                      'bg-gradient-to-r from-red-400 to-red-600 text-white': novedad.resuelto === false,
+                      'bg-gray-200 text-gray-600': novedad.resuelto !== false
+                    }"
+                    class="w-14 px-2 py-2 rounded-full font-medium transition-all duration-300 ease-in-out transform hover:scale-105 text-sm">
+                    No
+                  </button>
+                </div>-->
+                <!-- FIN -->
+              </div>
+              <!-- CONTAINER OBSERVACIONES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+            </div>
+            <!-- LEFT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+            <!-- RIGHT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+           <!-- <div class="flex w-[35%] h-full">-->
+              <!-- CONTAINER IMAGENES =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+             <!-- <div class="flex flex-col w-full h-full">
+                <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+                  <span class="tracking-wide font-semibold">Imágenes</span>
+                </div>
+                <div class="flex w-full h-full overflow-y-auto">
+                  <div
+                    class="grid grid-cols-2 grid-cols-[50, 50%, 50%, 50%] w-full h-full overflow-y-auto gap-2 p-2 rounded-xl bg-gray-100 border border-gray-300">
+                    <button (click)="deleteImage(i)" *ngFor="let image of novedad.images; let i = index;"
+                      class="flex w-full h-full p-2 rounded-xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-sky-500">
+                      <img [src]="image.url">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+            <!-- RIGHT SIDE =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+          </div>
+          <!-- CONTENT EQUIPO LOADED =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+        </ng-container>
+      </div>
+      <!--Fin de lista de novedades-->
+
+      <!--Fin de contenido de Mateo Mora-->
+
+
+      <!-- TAB 3 =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+      <div *ngIf="selectedTab == 3"
+        class="flex flex-col w-full h-[90%] p-2 shadow-inner bg-gray-200 shadow-gray-300 overflow-y-auto">
+        <div class="flex p-2 w-full h-full bg-white rounded-2xl shadow-md border border-gray-300">
+          <div class="flex flex-col w-[35%] h-full">
+            <div class="flex w-full h-[60%] items-center justify-center align-middle">
+              <button [disabled]="true"
+                class="flex w-52 h-52 rounded-full border border-slate-500 text-slate-500 items-center justify-center">
+                <svg class="z-50" width="260px" height="260px" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 9C15 10.6569 13.6569 12 12 12C10.3431 12 9 10.6569 9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9ZM12 20.5C13.784 20.5 15.4397 19.9504 16.8069 19.0112C17.4108 18.5964 17.6688 17.8062 17.3178 17.1632C16.59 15.8303 15.0902 15 11.9999 15C8.90969 15 7.40997 15.8302 6.68214 17.1632C6.33105 17.8062 6.5891 18.5963 7.19296 19.0111C8.56018 19.9503 10.2159 20.5 12 20.5Z"
+                    fill="currentColor" />
+                </svg>
+                <div class="absolute flex w-52 h-52 items-end justify-center mt-2">
+                  <span
+                    class="flex tracking-wide rounded-full border border-t-0 border-slate-500 shadow-md font-bold px-2 bg-white">Nombre
+                    de Usuario</span>
+                </div>
+              </button>
+            </div>
+            <div class="flex w-full h-[40%] items-center justify-center align-middle gap-2">
+              <button (click)="saveFirmaUsuarioRondas()"
+                class="flex flex-col w-[70%] h-[80%] bg-green-300 text-green-500 border border-green-400 shadow-md shadow-gray-300 rounded-3xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-green-400 hover:border-green-500 hover:text-green-600 hover:scale-105 active:scale-95 active:bg-green-600 active:border-green-700 active:text-green-800">
+                <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z"
+                    fill="currentColor" />
+                </svg>
+              </button>
+              <button (click)="clearUsuarioRondas()"
+                class="flex flex-col w-[70%] h-[80%] bg-yellow-300 text-yellow-500 border border-yellow-400 shadow-md shadow-gray-300 rounded-3xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-yellow-400 hover:border-yellow-500 hover:text-yellow-600 hover:scale-105 active:scale-95 active:bg-yellow-600 active:border-yellow-700 active:text-yellow-800">
+                <svg fill="currentColor" width="100px" height="100px" class="flex mr-2 h-full" viewBox="0 0 1024 1024"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M511.28 0C255.472 0 47.36 208.126 47.36 463.934c0 240.448 185.296 441.536 423.568 462.096l-91.856 46.56c-11.344 6.223-18.096 20.223-11.376 31.279l3.248 8.4c6.752 11.056 21.376 14.976 32.687 8.783l153.312-78.496c.193-.128.4-.095.593-.223l10.288-5.632c5.68-3.12 9.44-8.224 10.943-13.903 1.569-5.68.85-12-2.527-17.504l-6.096-10c-.095-.193-.288-.32-.4-.496L475.055 746.83c-6.72-11.056-21.311-14.976-32.687-8.784l-7.44 5.184c-11.344 6.192-12.096 22.192-5.376 33.217l55.872 86.672c-.304-.016-.576-.128-.865-.144-209.28-13.727-373.2-189.039-373.2-399.039C111.36 243.408 290.767 64 511.28 64c220.544 0 400.96 179.408 400.96 399.937 0 126.976-58.32 243.6-160 319.968-14.127 10.624-16.975 30.689-6.367 44.817 10.624 14.16 30.689 16.976 44.817 6.368 117.936-88.592 185.567-223.872 185.567-371.152C976.24 208.129 767.105 0 511.28 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex w-[65%] h-full items-center justify-center align-middle p-4">
+            <signature-pad #signatureUno *ngIf="linkFirmaUno == ''" (drawEnd)="drawComplete($event)" id="sigUno"
+              [options]="signaturePadOptions" class="flex">
+            </signature-pad>
+            <img [src]="linkFirmaUno" *ngIf="linkFirmaUno != ''"
+              class="flex w-full h-full border border-gray-300 rounded-xl">
+          </div>
+        </div>
+      </div>
+      <!-- TAB 3 =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+      <!-- TAB 4 =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+      <div *ngIf="selectedTab == 4"
+        class="flex flex-col w-full h-[90%] p-2 shadow-inner bg-gray-200 shadow-gray-300 overflow-y-auto">
+        <div class="flex p-2 w-full h-full bg-white rounded-2xl shadow-md border border-gray-300">
+          <div class="flex flex-col w-[35%] h-full">
+            <div class="flex w-full h-[60%] items-center justify-center align-middle">
+              <button [disabled]="true"
+                class="flex w-52 h-52 rounded-full border border-slate-500 text-slate-500 items-center justify-center">
+                <svg class="z-50" width="260px" height="260px" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 9C15 10.6569 13.6569 12 12 12C10.3431 12 9 10.6569 9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9ZM12 20.5C13.784 20.5 15.4397 19.9504 16.8069 19.0112C17.4108 18.5964 17.6688 17.8062 17.3178 17.1632C16.59 15.8303 15.0902 15 11.9999 15C8.90969 15 7.40997 15.8302 6.68214 17.1632C6.33105 17.8062 6.5891 18.5963 7.19296 19.0111C8.56018 19.9503 10.2159 20.5 12 20.5Z"
+                    fill="currentColor" />
+                </svg>
+                <div class="absolute flex w-52 h-52 items-end justify-center mt-2">
+                  <span
+                    class="flex tracking-wide rounded-full border border-t-0 border-slate-500 shadow-md font-bold px-2 bg-white">Nombre
+                    Responsable</span>
+                </div>
+              </button>
+            </div>
+            <div class="flex w-full h-[40%] items-center justify-center align-middle gap-2">
+              <button (click)="saveFirmaResponsable()"
+                class="flex flex-col w-[70%] h-[80%] bg-green-300 text-green-500 border border-green-400 shadow-md shadow-gray-300 rounded-3xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-green-400 hover:border-green-500 hover:text-green-600 hover:scale-105 active:scale-95 active:bg-green-600 active:border-green-700 active:text-green-800">
+                <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z"
+                    fill="currentColor" />
+                </svg>
+              </button>
+              <button (click)="clearResponsable()"
+                class="flex flex-col w-[70%] h-[80%] bg-yellow-300 text-yellow-500 border border-yellow-400 shadow-md shadow-gray-300 rounded-3xl items-center justify-center align-middle transition ease-in-out duration-200 hover:bg-yellow-400 hover:border-yellow-500 hover:text-yellow-600 hover:scale-105 active:scale-95 active:bg-yellow-600 active:border-yellow-700 active:text-yellow-800">
+                <svg fill="currentColor" width="100px" height="100px" class="flex mr-2 h-full" viewBox="0 0 1024 1024"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M511.28 0C255.472 0 47.36 208.126 47.36 463.934c0 240.448 185.296 441.536 423.568 462.096l-91.856 46.56c-11.344 6.223-18.096 20.223-11.376 31.279l3.248 8.4c6.752 11.056 21.376 14.976 32.687 8.783l153.312-78.496c.193-.128.4-.095.593-.223l10.288-5.632c5.68-3.12 9.44-8.224 10.943-13.903 1.569-5.68.85-12-2.527-17.504l-6.096-10c-.095-.193-.288-.32-.4-.496L475.055 746.83c-6.72-11.056-21.311-14.976-32.687-8.784l-7.44 5.184c-11.344 6.192-12.096 22.192-5.376 33.217l55.872 86.672c-.304-.016-.576-.128-.865-.144-209.28-13.727-373.2-189.039-373.2-399.039C111.36 243.408 290.767 64 511.28 64c220.544 0 400.96 179.408 400.96 399.937 0 126.976-58.32 243.6-160 319.968-14.127 10.624-16.975 30.689-6.367 44.817 10.624 14.16 30.689 16.976 44.817 6.368 117.936-88.592 185.567-223.872 185.567-371.152C976.24 208.129 767.105 0 511.28 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex w-[65%] h-full items-center justify-center align-middle p-4">
+            <signature-pad #signatureDos *ngIf="linkFirmaDos == ''" (drawEnd)="drawCompleteDos($event)" id="sigDos"
+              [options]="signaturePadOptions" class="flex">
+            </signature-pad>
+            <img [src]="linkFirmaDos" *ngIf="linkFirmaDos != ''"
+              class="flex w-full h-full border border-gray-300 rounded-xl">
+          </div>
+        </div>
+      </div>
+      <!-- TAB 4 =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+    </div>
+    <!-- CONTENIDO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+  </div>
+  <!-- WHITE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= -->
+
+  <!-- MODAL SERVICIO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+  <div *ngIf="modalServicio"
+    class="relative flex flex-col w-auto h-auto py-2 gap-y-2 border border-gray-300 bg-white shadow-md shadow-gray-400 rounded-3xl">
+    <div class="flex w-auto h-auto px-48 items-center justify-center">
+      <span class="tracking-wide font-bold text-xl text-slate-500">Seleccione el Servicio</span>
+    </div>    
+    <div class="flex w-auto h-auto px-4 items-center justify-center gap-2">
+      <select name="tipoNovedad" ngDefaultControl id="tipoNovedad" [(ngModel)]="selectedTipoNovedad"
+      class="flex w-full p-0 px-4 py-1 rounded-full border border-gray-300 text-slate-500 transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">  
+      <option *ngFor="let tipoNovedad of tiposNovedad" [ngValue]="tipoNovedad.id">
+          {{tipoNovedad.nombreTipoNovedad}} </option>
+      </select>
+    </div>
+    <div class="flex w-auto h-auto px-4 items-center justify-center gap-2">
+      <select name="sedeSelect" ngDefaultControl id="sedeSelect" [(ngModel)]="selectedSede" (change)="changeTorre()"
+        class="flex w-full p-0 px-4 py-1 rounded-full border border-gray-300 text-slate-500 transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+        <option *ngFor="let torre of torres" [ngValue]="torre.id"> {{torre.nombreTorre}} </option>
+      </select>
+      <select *ngIf="selectedSede && selectedSede.id != 0" name="pisoSelect" ngDefaultControl id="pisoSelect"
+        (change)="changePiso()" [(ngModel)]="selectedPiso"
+        class="flex w-full p-0 px-4 py-1 rounded-full border border-gray-300 text-slate-500 transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+        <option *ngFor="let piso of pisos" [ngValue]="piso.id"> {{piso.nombrePiso}} </option>
+      </select>
+    </div>
+    <div *ngIf="selectedSede && selectedSede.id != 0 && selectedPiso && selectedPiso.id != 0"
+      class="flex w-auto h-auto px-4 items-center justify-center gap-2">
+      <select *ngIf="selectedPiso && selectedPiso.id != 0" name="sedeSelect" ngDefaultControl id="areaSelect"
+        (change)="changeArea()" [(ngModel)]="selectedArea"
+        class="flex w-full p-0 px-4 py-1 rounded-full border border-gray-300 text-slate-500 transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+        <option *ngFor="let area of areas" [ngValue]="area.id"> {{area.nombreArea}} </option>
+      </select>
+    </div>        
+    <div class="flex w-auto h-auto px-48 items-center justify-center gap-10">
+      <button (click)="modalServicioControl(false)"
+        class="flex w-auto h-auto px-10 py-1 enabled:text-slate-500 disabled:text-gray-400 border enabled:border-gray-300 disabled:border-gray-500 enabled:shadow enabled:shadow-gray-400 rounded-full enabled:bg-white disabled:bg-gray-300 transition ease-in-out duration-200 enabled:hover:scale-105 enabled:hover:bg-sky-400 enabled:hover:border-sky-500 enabled:hover:text-white enabled:active:scale-95 enabled:active:bg-sky-600 enabled:active:border-sky-700">
+        <span class="tracking-wide font-semibold">Continuar</span>
+      </button>
+      <button (click)="navigateBackToMain()"
+        class="flex w-auto h-auto px-10 py-1 text-slate-500 border border-gray-300 shadow shadow-gray-400 rounded-full bg-white transition ease-in-out duration-200 hover:scale-105 hover:bg-red-500 hover:border-red-600 hover:text-white active:scale-95 active:bg-red-700 active:border-red-800">
+        <span class="tracking-wide font-semibold">Cancelar</span>
+      </button>
+    </div>
+  </div>
+  <!-- MODAL SERVICIO =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+</div>
+<!-- BASE CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+
+<!-- MODAL FLOATING CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->
+<div *ngIf="modalEquipo" @fadeAnimation
+  class="fixed flex w-full h-full top-0 left-0 pt-2 pr-2 pb-2 pl-[80px] backdrop-blur-sm items-center justify-center">
+  <div
+    class="flex flex-col w-[90%] h-[85%] bg-white border border-gray-300 rounded-xl shadow-lg shadow-gray-300 p-2 gap-2">
+    <div class="flex w-full h-[15%] items-center justify-center align-middle text-slate-500">
+      <span class="tracking-wide font-bold text-xl">Seleccionar Equipo</span>
+    </div>
+    <div class="flex w-full h-[10%]">
+      <div class="relative flex w-full h-auto items-center gap-2">
+        <input type="search" name="busquedaNombre" id="busquedaNombre" placeholder="🔍 Nombre"
+          class="flex w-full p-0 px-4 py-0.5 rounded-full border border-gray-300 text-slate-500 text-lg transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+        <select name="categoria" ngDefaultControl id="categoria" [(ngModel)]="selectedCategoria"
+          class="flex w-auto p-0 px-4 py-1 rounded-full border border-gray-300 text-slate-500 text-lg transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+          <option *ngFor="let categoria of categorias" [ngValue]="categoria.id"> {{categoria.nombreCategoria}} </option>
+        </select>
+        <select name="marca" ngDefaultControl id="marca" [(ngModel)]="selectedMarca"
+          class="flex w-auto p-0 px-4 py-1 rounded-full border border-gray-300 text-slate-500 text-lg transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+          <option *ngFor="let marca of marcas" [ngValue]="marca.id"> {{marca.nombreMarca}} </option>
+        </select>
+        <input type="search" name="busquedaModelo" id="busquedaModelo" placeholder="🔍 Modelo"
+          class="flex w-full p-0 px-4 py-0.5 rounded-full border border-gray-300 text-slate-500 text-lg transition ease-in-out duration-200 hover:border-sky-400 active:border-sky-600 focus:border-sky-500 focus:ring-0">
+      </div>
+    </div>
+    <div class="flex w-full h-[60%]">
+      <div
+        class="relative flex flex-col w-full h-full border border-gray-300 rounded-xl shadow-md shadow-gray-300 overflow-y-auto text-slate-500">
+        <div
+          class="sticky top-0 flex w-full h-14 bg-white border-b border-gray-300 shadow-md font-semibold tracking-wide">
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>Nombre</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>Placa</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>Serie</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>Marca</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>Modelo</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>Categoría</span>
+          </div>
+        </div>
+
+        <button *ngFor="let equipo of equipos; let i = index;" (click)="selectEquipo(equipo)"
+          [disabled]="checkIfAlreadyRegistered(equipo)"
+          class="flex w-full h-14 transition ease-in-out duration-200 {{ checkIfAlreadyRegistered(equipo) ? 'bg-gray-300 text-gray-400' : selectedEquipo ? ( selectedEquipo.id == equipo.id ? 'bg-sky-500 text-white hover:bg-sky-500 active:bg-sky-600' : 'hover:bg-sky-300 hover:text-white active:bg-sky-600' ) : 'hover:bg-sky-300 hover:text-white active:bg-sky-600' }}">
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>{{ equipo.nombreEquipo }}</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>{{ equipo.idPlaca }}</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>{{ equipo.idSerial }}</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>{{ equipo.marca.nombreMarca }}</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>{{ equipo.modelo }}</span>
+          </div>
+          <div class="flex w-full h-14 items-center justify-center align-middle">
+            <span>{{ equipo.categoria.nombreCategoria }}</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="flex w-full h-[15%] justify-center align-middle items-center gap-5">
+      <button [disabled]="selectedEquipo.id == 0" (click)="modalSelectEquipoControl(false, 1)"
+        class="flex w-auto h-auto px-10 py-2 border border-gray-300 rounded-full text-slate-500 disabled:border-gray-300 disabled:bg-gray-300 disabled:text-gray-400 enabled:shadow-md enabled:shadow-gray-300 transition ease-in-out duration-200 enabled:hover:bg-sky-300 enabled:hover:scale-105 enabled:hover:text-white enabled:hover:border-sky-400 enabled:active:bg-sky-600 enabled:active:scale-95 enabled:active:border-sky-700">
+        <span class="tracking-wide font-semibold">Confirmar</span>
+      </button>
+      <button (click)="modalSelectEquipoControl(false,2)"
+        class="flex w-auto h-auto px-10 py-2 shadow-md shadow-red-400 bg-red-400 border border-red-500 rounded-full text-white transition ease-in-out duration-200 hover:scale-105 hover:bg-red-500 hover:border-red-600 active:scale-95 active:bg-red-600 active:border-red-700">
+        <span class="tracking-wide font-semibold">Cancelar</span>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- MODAL FLOATING CONTAINER =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* -->

@@ -1,0 +1,147 @@
+/* Estilos generales para la tabla */
+.table-container {
+    width: 100%;
+    max-height: 400px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto; /* Desplazamiento vertical */
+    border: 1px solid #ddd; /* Opcional: Agrega un borde para visibilidad */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Asegura que la tabla tenga un ancho fijo */
+}
+  
+  th ,td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Misma fuente que th */
+  font-size: 1rem; /* Tamaño de fuente ajustado */
+  color: #333; /* Color del texto */
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Estilos para la tabla */
+.table-container {
+  width: 100%;
+  max-height: 400px; /* Ajusta esta altura según tus necesidades */
+  overflow-y: auto; /* Desplazamiento vertical */
+  border: 1px solid #ddd; /* Opcional: Agrega un borde para visibilidad */
+}
+  
+th {
+  background-color: #f2f2f2;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold; /* Negrita */
+  font-size: 1.1rem; /* Ajusta el tamaño de la fuente */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipo de letra bonita */
+  color: #333; /* Color del texto */
+  padding: 12px; /* Espaciado interno */
+}
+  
+  /* Flexbox para alinear en vistas móviles */
+@media (max-width: 800px) {
+  .table-container {
+      max-height: none; /* Elimina la altura máxima en pantallas más pequeñas si es necesario */
+  }
+
+  table {
+      border: 0;
+  }
+
+  thead {
+      display: none;
+  }
+
+  tr {
+      display: block;
+      margin-bottom: 0.625em;
+  }
+
+  td {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      height: 100%;
+      border: 1px solid #ddd;
+      width: 100%;
+      box-sizing: border-box;
+      flex-wrap: wrap; /* Permite que el contenido se ajuste */
+      flex-shrink: 1; /* Permite que el contenido se reduzca para ajustarse al contenedor */
+  }
+
+  td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      text-align: left;
+  }
+}
+
+  /* Estilos de botones */
+.button-common {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 5px; /* Ajusta los bordes según el diseño deseado */
+  color: #475569; /* text-slate-500 */
+  background-color: #ffffff; /* Fondo blanco */
+  transition: all 0.2s ease-in-out;
+  min-width: 80px; /* Ajusta el ancho mínimo para que sean visibles */
+}
+
+.button-common:hover {
+  background-color: #e0f2fe; /* bg-sky-300 */
+  color: #ffffff; /* text-white */
+  border-color: #38bdf8; /* border-sky-400 */
+  transform: scale(1.05);
+}
+
+.button-common:active {
+  background-color: #0284c7; /* bg-sky-600 */
+  border-color: #1e40af; /* border-sky-700 */
+  transform: scale(0.95);
+}
+
+.button-common:disabled {
+  border-color: #d1d5db; /* border-gray-300 */
+  background-color: #d1d5db; /* bg-gray-300 */
+  color: #9ca3af; /* text-gray-400 */
+  cursor: not-allowed;
+}
+
+.btn-azul {
+  background-color: #4da6ff; /* Azul suave */
+  color: white; /* Texto blanco */
+  border: 1px solid #4da6ff; /* Borde azul suave */
+}
+
+.btn-azul:hover {
+  background-color: #3399ff; /* Azul ligeramente más oscuro al pasar el mouse */
+}
+
+.btn-rojo {
+  background-color: #e57373; /* Rojo más suave */
+  color: white; /* Texto blanco */
+  border: 1px solid #e57373; /* Borde rojo suave */
+}
+
+.btn-rojo:hover {
+  background-color: #d16666; /* Rojo más oscuro al pasar el mouse */
+}
